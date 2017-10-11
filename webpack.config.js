@@ -19,7 +19,7 @@ module.exports = {
             }
         ]
     },
-   server: {
+   devServer: {
         contentBase: path.resolve(__dirname, "dist"),
         port: 8000
     }
