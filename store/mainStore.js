@@ -13,8 +13,6 @@ function counter(state = 0, action) {
 
 let store = createStore(counter);
 
-store.subscribe(()=>
-	console.log(store.getState())
-)
+store.subscribe(()=>console.log(store.getState()))
 
-module export store;
+export default store
