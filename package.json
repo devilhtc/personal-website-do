@@ -16,5 +16,7 @@
   "bugs": {
     "url": "https://github.com/devilhtc/personal-website-do/issues"
   },
-  "homepage": "https://github.com/devilhtc/personal-website-do#readme"
+  "homepage": "https://github.com/devilhtc/personal-website-do#readme",
+  "dependencies": {},
+  "devDependencies": {}
 }
