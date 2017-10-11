@@ -15,6 +15,6 @@ let store = createStore(counter);
 
 store.subscribe(()=>
 	console.log(store.getState())
-);
+)
 
-export store;
+module export store;
