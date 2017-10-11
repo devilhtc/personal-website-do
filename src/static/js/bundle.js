@@ -20490,7 +20490,7 @@
 /* 164 */
 /***/ function(module, exports) {
 
-	import {createStore} from 'redux'
+	import createStore from 'redux'
 	
 	function counter(state = 0, action) {
 		switch (action.type) {
