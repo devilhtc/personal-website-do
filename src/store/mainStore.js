@@ -1,17 +1,14 @@
 import {createStore} from 'redux'
 
-function counter(state = 0, action) {
-	switch (action.type) {
-		case 'INC':
-			return state + 1;
-		case 'DEC':
-			return state - 1;
-		default:
-			return state;
+function switchView(state = {view: "HOME"} , action) {
+	if (action.type==='SWITCH_VIEW') {
+		return {view: action.payload}
+	} else {
+		return {view: state.view}
 	}
 }
 
-let store = createStore(counter);
+let store = createStore(switchView)
 
 store.subscribe(()=>console.log(store.getState()))
 
