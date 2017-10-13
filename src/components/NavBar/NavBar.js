@@ -2,7 +2,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-class MyApp extends React.Component {
+class NavBar extends React.Component {
 	render() {
     var viewList = ["HOME", "ABOUT", "PROJECTS", "CONTACT"].map(
       (item) => {
@@ -37,4 +37,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MyApp)
+)(NavBar)
