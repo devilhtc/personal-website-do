@@ -1,6 +1,7 @@
 // src/components/TrialComponent.js
 import React from 'react'
 import {connect} from 'react-redux'
+import NavBar from '../NavBar/NavBar'
 
 class MyApp extends React.Component {
 	render() {
@@ -9,11 +10,11 @@ class MyApp extends React.Component {
         return (<div key = {item} onClick = {()=>{this.props.switchView(item)}}> {item} </div>)
       }
     )
-    
+
+    window.onresize = this.props.windowResize;
 		return (
 			<div>
-				<div> {this.props.view} </div>
-        {viewList}
+				<NavBar />
 			</div>
 		)
 	}
@@ -30,6 +31,9 @@ const mapDispatchToProps = (dispatch) => {
     switchView: (v) => dispatch({
    		type:"SWITCH_VIEW",
       payload:v
+    }),
+    windowResize: () => dispatch({
+      type:"CHANGE_WIDTH"
     })
   }
 }
