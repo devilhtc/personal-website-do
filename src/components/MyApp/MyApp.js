@@ -5,13 +5,8 @@ import NavBar from '../NavBar/NavBar'
 
 class MyApp extends React.Component {
 	render() {
-    var viewList = ["HOME", "ABOUT", "PROJECTS", "CONTACT"].map(
-      (item) => {
-        return (<div key = {item} onClick = {()=>{this.props.switchView(item)}}> {item} </div>)
-      }
-    )
+    window.onresize = this.props.windowResize
 
-    window.onresize = this.props.windowResize;
 		return (
 			<div>
 				<NavBar />

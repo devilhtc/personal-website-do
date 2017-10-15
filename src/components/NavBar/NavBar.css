@@ -2,14 +2,34 @@
 .navbarAll {
     position: absolute;
     font-family: 'Raleway';
+    font-size: 20px;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.10), 0 1px 3px rgba(0,0,0,0.24);
+
 }
 
 .navbarBanner {
-	height: 100px;
-	width:100%;
+	position: absolute;
+	min-width: 100%;
 	display: flex;
 	flex-direction: row;
 }
 
 
+
+.navOption {
+	position:absolute;
+	text-align: center;
+	transition: font-weight 100ms;
+}
+
+.navOption:hover {
+	font-weight: 700;
+
+}
+
+
+.navLastName {
+	font-weight: 700;
+	margin-left: 3px;
+}
 

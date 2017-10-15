@@ -1,8 +1,8 @@
 import {createStore, combineReducers} from 'redux'
-import {view, totalWidth, owner} from './reducers'
+import {view, totalWidth, constants} from './reducers'
 
 
-var combined = combineReducers({view, totalWidth, owner})
+var combined = combineReducers({view, totalWidth, constants})
 let store = createStore(combined)
 
 store.subscribe( ()=>console.log(store.getState()) )
