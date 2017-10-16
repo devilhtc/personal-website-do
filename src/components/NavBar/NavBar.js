@@ -1,4 +1,4 @@
-// src/components/TrialComponent.js
+// src/components/NavBar/NavBar.js
 import React from 'react'
 import {connect} from 'react-redux'
 import styles from './NavBar.css'
