@@ -6,8 +6,10 @@ let store = createStore(combined)
 
 store.subscribe( 
 	() => {
-		console.log( JSON.stringify(store.getState() ) )
-	} 
+		console.log( 
+			JSON.stringify(store.getState() ) 
+		)
+	}
 )
 
 export default store

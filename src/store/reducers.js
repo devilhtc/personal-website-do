@@ -3,6 +3,14 @@
 // define default states 
 // and their correspoding reducers
 
+
+const startingWidth = Math.max(window.innerWidth, 1400)
+const myName = {
+	firstName: "zibo", 
+	lastName:"gong"
+}
+const navHeight = 70
+
 export const view = (state = "HOME" , action) => {
 	if (action.type === 'SWITCH_VIEW') {
 		return action.payload
@@ -10,9 +18,9 @@ export const view = (state = "HOME" , action) => {
 	return state
 }
 
-export const totalWidth = (state = window.innerWidth, action) => {
+export const totalWidth = (state = startingWidth, action) => {
 	if (action.type === 'CHANGE_WIDTH') {
-		return window.innerWidth
+		return Math.max(window.innerWidth, 1400)
 	} 
 	return state
 }
@@ -20,11 +28,8 @@ export const totalWidth = (state = window.innerWidth, action) => {
 
 
 const constantState = {
-	owner: {
-		firstName: "Tianchang", 
-		lastName:"He"
-	},
-	navHeight: 70
+	owner: myName,
+	navHeight: navHeight
 }
 
 export const constants = (state = constantState) => {

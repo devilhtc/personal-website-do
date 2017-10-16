@@ -1,5 +1,7 @@
 import React from 'react'
 
+const transitionTime = 300 + 'ms'
+
 class NavBarUpper extends React.Component {
   render() {
     const leftDis = this.props.propsWrapper.leftDis
@@ -19,13 +21,13 @@ class NavBarUpper extends React.Component {
       width: width + 'px',
       overflow: 'hidden',
       left: leftDis[curOptionIndex] + 'px',
-      transition: 'left 300ms'
+      transition: 'left '+transitionTime
     }
     const lowerOptionListES = {
       position: 'absolute',
       height: navHeight + 'px',
       left: '-' + leftDis[curOptionIndex] + 'px',
-      transition: 'left 300ms'
+      transition: 'left '+transitionTime
     }
     const upperOptionES = {
       backgroundColor: 'black',

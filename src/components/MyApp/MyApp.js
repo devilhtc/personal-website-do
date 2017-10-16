@@ -13,7 +13,7 @@ class MyApp extends React.Component {
       position: 'absolute',
       left: totalWidth/14 + 'px',
       width: totalWidth*6/7 + 'px',
-      top: navHeight + 'px'
+      top: 0 + 'px'
     }
 
 		return (
