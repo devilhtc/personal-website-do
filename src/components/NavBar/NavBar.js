@@ -82,10 +82,13 @@ class NavBar extends React.Component {
     const namesES = {
       lineHeight: navHeight + 'px'
     }
-        
+    const bannerES = {
+      height: navHeight + 'px'
+    }    
+
 		return (
 			<div className = {styles.navbarAll} style = {navbarAllES}>
-        <div className = {styles.navbarBanner}>
+        <div className = {styles.navbarBanner} style = {bannerES}>
           <NameBanner extraStyle = { [bothNameES, namesES] } content = {owner}/>
           {optionList}
         </div>

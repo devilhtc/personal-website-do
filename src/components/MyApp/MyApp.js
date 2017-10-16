@@ -3,6 +3,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import NavBar from '../NavBar/NavBar'
 import Panel from '../Panel/Panel'
+import Footer from '../Footer/Footer'
 
 class MyApp extends React.Component {
 	render() {
@@ -13,16 +14,24 @@ class MyApp extends React.Component {
       position: 'absolute',
       left: totalWidth/14 + 'px',
       width: totalWidth*6/7 + 'px',
-      top: 0 + 'px'
+      top: 0 + 'px',
+      position: 'absolute',
+      display: 'flex',
+      flexDirection: 'column'
     }
 
+
 		return (
-			<div>
+      <div>
+
         <div style = {contentSizingES}> 
           <Panel />
+
+          <Footer />
         </div>
-				<NavBar />
-			</div>
+        
+        <NavBar />
+      </div>
 		)
 	}
 }

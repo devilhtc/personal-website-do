@@ -3,10 +3,10 @@ import React from 'react'
 import {connect} from 'react-redux'
 import styles from './Panel.css'
 
-const primaryTextFontSize = 90
-const secondaryTextFontSize = 26
-const defaultPrimaryText = "This is the highlightet text"
-const defaultSecondaryText = "More explanatory text that brings flavor to the design"
+const primaryTextFontSize = 150
+const secondaryTextFontSize = 32
+const defaultPrimaryText = "Highlight"
+const defaultSecondaryText = "More explanatory text"
 const defaultImgUrl = "./img/wolf.png"
 
 class Panel extends React.Component {
@@ -16,25 +16,26 @@ class Panel extends React.Component {
 		const secText = this.props.secondaryText || defaultSecondaryText
 		const bgImgUrl = this.props.bgImgUrl || defaultImgUrl
 		const panelHeight =  totalWidth*6/7*8.1/13
+		const priTop = panelHeight*0.46
+		const secTop = panelHeight*0.51
 
 		const panelES = {
 			backgroundImage:'url("'+bgImgUrl+'")',
 			backgroundSize: '100%',
 			height: panelHeight+ 'px',
-			overflow: 'hidden'
+			overflow: 'hidden',
+			position: 'relative'
 		}
 
 		const priES = {
-			top: panelHeight/2 - 14 + 'px',
-			left: totalWidth*6/7/4,
-			width: totalWidth*6/7/2 + 'px',
+			top:  priTop + 'px',
+			width: totalWidth*6/7 + 'px',
 			fontSize: primaryTextFontSize + 'px'
 		}
 
 		const secES = {
-			top: panelHeight*0.70 + 'px',
-			left: totalWidth*6/7/6,
-			width: totalWidth*6/7*2/3 + 'px',
+			top: secTop + 'px',
+			width: totalWidth*6/7+ 'px',
 			fontSize: secondaryTextFontSize + 'px'
 		}
 

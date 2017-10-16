@@ -6,8 +6,8 @@
 
 const startingWidth = Math.max(window.innerWidth, 1400)
 const myName = {
-	firstName: "zibo", 
-	lastName:"gong"
+	firstName: "Kevin", 
+	lastName:"He"
 }
 const navHeight = 70
 
