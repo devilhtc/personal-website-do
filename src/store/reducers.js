@@ -13,6 +13,12 @@ const navHeight = 70
 
 export const view = (state = "HOME" , action) => {
 	if (action.type === 'SWITCH_VIEW') {
+		let payload = action.payload
+		if (payload == "HOME") {
+			window.location.replace("#/")
+		} else {
+			window.location.replace("#/"+payload.toLowerCase())
+		}
 		return action.payload
 	}
 	return state

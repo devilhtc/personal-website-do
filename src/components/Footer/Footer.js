@@ -13,7 +13,7 @@ class Footer extends React.Component {
 		const footerHeight = this.props.navHeight
 		const totalWidth = this.props.totalWidth
 		const footerWidth = this.props.totalWidth*6/7
-		const OwnerName = (this.props.owner.firstName + " " + this.props.owner.lastName).toUpperCase()
+		const OwnerName = (this.props.owner.firstName + " " + this.props.owner.lastName)
 		const footerES = {
 			width: footerWidth + 'px'
 		}
@@ -37,7 +37,7 @@ class Footer extends React.Component {
 			    </div> 
 
 			    <div className = {styles.footerC} style = {footerCES}>
-			    	© 2017. All rights reserved. 
+			    	©2017.  All rights reserved. 
 			    </div>
 			</div>
 		)

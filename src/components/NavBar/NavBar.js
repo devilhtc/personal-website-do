@@ -5,6 +5,7 @@ import styles from './NavBar.css'
 import NavBarUpper from './NavBarUpper'
 
 const navbarAllFontSize = 22 
+const options = ["HOME", "ABOUT", "PROJECTS", "CONTACT"]
 
 class NameBanner extends React.Component {
   render() {
@@ -30,7 +31,6 @@ class NavBar extends React.Component {
     const totalWidth = this.props.totalWidth
     const navHeight = this.props.navHeight
     const blockWidth = totalWidth * 3 / 28
-    const options = ["HOME", "ABOUT", "PROJECTS", "CONTACT"]
     const leftDis = options.map(
       (item, index) => {
         return totalWidth * (index * 3 + 14 ) / 28;
@@ -47,8 +47,8 @@ class NavBar extends React.Component {
           }
           Object.assign(optionES, otherStyle)
           return (<div key = {item} className = {styles.navOption} style = { optionES } 
-                  onClick = { ()=>{ this.props.switchView(item) } }> 
-                    {item} 
+                  onClick = { ()=>{ this.props.switchView(item) }}> 
+                      {item} 
                   </div>)
         }
       )

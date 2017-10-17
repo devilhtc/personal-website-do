@@ -4,6 +4,12 @@ import {connect} from 'react-redux'
 import NavBar from '../NavBar/NavBar'
 import Panel from '../Panel/Panel'
 import Footer from '../Footer/Footer'
+import HomeSection from '../Sections/HomeSection'
+import AboutSection from '../Sections/AboutSection'
+import ProjectsSection from '../Sections/ProjectsSection'
+import ContactSection from '../Sections/ContactSection'
+
+import { HashRouter as Router, Route, Link } from 'react-router-dom'
 
 class MyApp extends React.Component {
 	render() {
@@ -17,25 +23,35 @@ class MyApp extends React.Component {
       top: 0 + 'px',
       position: 'absolute',
       display: 'flex',
-      flexDirection: 'column'
+      flexDirection: 'column',
+      animation: 'fadein 500ms'
     }
-
 
 		return (
       <div>
-
-        <div style = {contentSizingES}> 
-          <Panel />
-
-          <Footer />
-        </div>
-        
+        <Router>
+          <div style = {contentSizingES}>
+            <Route path = '/' exact component = {HomeSection} />
+            <Route path = '/about' component = {AboutSection} />
+            <Route path = '/projects' component = {ProjectsSection} />
+            <Route path = '/contact' component = {ContactSection} />
+          </div>
+        </Router>
         <NavBar />
       </div>
 		)
 	}
 }
 
+/*
+
+<div style = > 
+          <Panel />
+
+          <Footer />
+        </div>
+
+*/
 const mapStateToProps = (state) => {
   return {
     totalWidth: state.totalWidth,

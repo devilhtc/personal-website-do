@@ -8,6 +8,7 @@ const secondaryTextFontSize = 32
 const defaultPrimaryText = "Highlight"
 const defaultSecondaryText = "More explanatory text"
 const defaultImgUrl = "./img/wolf.png"
+const defaultFontColor = "white"
 
 class Panel extends React.Component {
 	render() {
@@ -15,20 +16,23 @@ class Panel extends React.Component {
 		const priText = this.props.primaryText || defaultPrimaryText
 		const secText = this.props.secondaryText || defaultSecondaryText
 		const bgImgUrl = this.props.bgImgUrl || defaultImgUrl
+		const panelFontColor = this.props.fontColor || defaultFontColor
 		const panelHeight =  totalWidth*6/7*8.1/13
 		const priTop = panelHeight*0.46
-		const secTop = panelHeight*0.51
-
+		const secTop = panelHeight*0.49
+		
 		const panelES = {
 			backgroundImage:'url("'+bgImgUrl+'")',
 			backgroundSize: '100%',
 			height: panelHeight+ 'px',
 			overflow: 'hidden',
-			position: 'relative'
+			position: 'relative',
+			color: panelFontColor,
+			backgroundBlendMode: 'lighten'
 		}
 
 		const priES = {
-			top:  priTop + 'px',
+			top: priTop + 'px',
 			width: totalWidth*6/7 + 'px',
 			fontSize: primaryTextFontSize + 'px'
 		}
