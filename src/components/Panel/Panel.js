@@ -56,14 +56,14 @@ class Panel extends React.Component {
 			top: priTop + 'px',
 			width: totalWidth*6/7 + 'px',
 			fontSize: primaryTextFontSize + 'px',
-			transition: 'text-shadow 50ms ease-in'
+			//transition: 'text-shadow 50ms ease-in'
 		}
 		Object.assign(priES, this.state.priTextShadow)
 		const secES = {
 			top: secTop + 'px',
 			width: totalWidth*6/7+ 'px',
 			fontSize: secondaryTextFontSize + 'px',
-			transition: 'text-shadow 50ms ease-in'
+			//transition: 'text-shadow 50ms ease-in'
 		}
 		Object.assign(secES, this.state.secTextShadow)
 
