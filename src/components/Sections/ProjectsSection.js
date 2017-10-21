@@ -4,20 +4,24 @@ import {connect} from 'react-redux'
 import styles from './Sections.css'
 import Panel from '../Panel/Panel'
 import Footer from '../Footer/Footer'
+import AnimateSection from './AnimateSection'
 
 const bgImgUrl = "./img/skyscraper.jpg"
 const fontColor = "white"
 
 class ProjectsSection extends React.Component {
 	render() {
-		return (
+		const inners = (
 			<div>
-				<Panel primaryText = {"Projects"} bgImgUrl = {bgImgUrl} fontColor = {fontColor} />
+				<Panel primaryText = {"Projects"} bgImgUrl = {bgImgUrl} fontColor = {fontColor}/>
 
 				<div>  </div>
 
 				<Footer />
 			</div>
+		)
+		return (
+			<AnimateSection content = {inners}/>
 		)
 	}
 }

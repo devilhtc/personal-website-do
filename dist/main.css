@@ -24,3 +24,21 @@ a {
     from { opacity: 0; }
     to   { opacity: 1; }
 }
+
+.anim-appear {
+  opacity: 0.05;
+}
+ 
+.anim-appear.anim-appear-active{
+  opacity: 1;
+  transition: opacity 150ms ease-in;
+}
+
+.anim-leave {
+  opacity: 1;
+}
+
+.anim-leave.anim-leave-active {
+  opacity: 0.05;
+  transition: opacity 150ms ease-in;
+}

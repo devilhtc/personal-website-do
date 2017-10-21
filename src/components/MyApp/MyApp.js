@@ -8,8 +8,8 @@ import HomeSection from '../Sections/HomeSection'
 import AboutSection from '../Sections/AboutSection'
 import ProjectsSection from '../Sections/ProjectsSection'
 import ContactSection from '../Sections/ContactSection'
-
 import { HashRouter as Router, Route, Link } from 'react-router-dom'
+import styles from './MyApp.css'
 
 class MyApp extends React.Component {
 	render() {
@@ -23,14 +23,13 @@ class MyApp extends React.Component {
       top: 0 + 'px',
       position: 'absolute',
       display: 'flex',
-      flexDirection: 'column',
-      animation: 'fadein 500ms'
+      flexDirection: 'column'
     }
 
 		return (
       <div>
         <Router>
-          <div style = {contentSizingES}>
+          <div className = {styles.contentStyle} style = {contentSizingES}>
             <Route path = '/' exact component = {HomeSection} />
             <Route path = '/about' component = {AboutSection} />
             <Route path = '/projects' component = {ProjectsSection} />
