@@ -6,6 +6,7 @@ import NavBarUpper from './NavBarUpper'
 
 const navbarAllFontSize = 22 
 const options = ["HOME", "ABOUT", "PROJECTS", "CONTACT"]
+const nameFontSize = 44
 
 class NameBanner extends React.Component {
   render() {
@@ -57,7 +58,7 @@ class NavBar extends React.Component {
     
     const optionList = genOptionList({})
     const owner = this.props.owner
-    const nameFontSize = 44
+    
     const navbarAllES = {
       width: totalWidth + 'px',
       height: navHeight + 'px',

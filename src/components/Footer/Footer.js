@@ -12,7 +12,7 @@ class Footer extends React.Component {
 	render() {
 		const footerHeight = this.props.navHeight
 		const totalWidth = this.props.totalWidth
-		const footerWidth = this.props.totalWidth*6/7
+		const footerWidth = this.props.totalWidth*this.props.widthProportion
 		const OwnerName = (this.props.owner.firstName + " " + this.props.owner.lastName)
 		const footerES = {
 			width: footerWidth + 'px'
@@ -21,13 +21,13 @@ class Footer extends React.Component {
 		const footerNameES = {
 			fontSize: footerNameFontSize + 'px',
 			padding: footerContentPadding + 'px',
-			paddingTop: 2 * footerContentPadding + 'px'
+			paddingTop: 4 * footerContentPadding + 'px'
 		}
 
 		const footerCES = {
 			fontSize: footerCFontSize + 'px',
 			padding: footerContentPadding + 'px',
-			paddingBottom: 2 * footerContentPadding + 'px'
+			paddingBottom: 4 * footerContentPadding + 'px'
 		}
 
 		return (
@@ -49,7 +49,8 @@ const mapStateToProps = (state) => {
   return {
     totalWidth: state.totalWidth,
     owner: state.constants.owner,
-    navHeight: state.constants.navHeight
+    navHeight: state.constants.navHeight,
+    widthProportion: state.constants.widthProportion
   }
 }
 

@@ -9,7 +9,8 @@ const defaultPrimaryText = "Highlight"
 const defaultSecondaryText = "More explanatory text"
 const defaultImgUrl = "./img/wolf.png"
 const defaultFontColor = "white"
-const panelHeightProportion = 6/7*8.1/13
+const whRatio = 8.1/13
+
 const priShadowX = 12
 const priShadowY = 15
 const secShadowX = 6
@@ -17,11 +18,11 @@ const secShadowY = 8
 const priShadowRadius = 20
 const secShadowRadius = 10
 const minBlur = 0.6
+const textOpacity = 0.92
 
 class Panel extends React.Component {
 	constructor(props) {
 		super(props)
-		this.shadowListener = this.shadowListener.bind(this)
 		this.state = {
 			priTextShadow : {
 				textShadow: '0 3px 20px rgba(0,0,0,0.7)'
@@ -30,9 +31,13 @@ class Panel extends React.Component {
 				textShadow: '0 1px 10px rgba(0,0,0,0.7)'
 			}
 		}
-
+		this.shadowMoveListener = this.shadowMoveListener.bind(this)
+		this.shadowLeaveListener = this.shadowLeaveListener.bind(this)
 	}
+
 	render() {
+		const panelWidthProportion = this.props.widthProportion
+		const panelHeightProportion = panelWidthProportion*whRatio
 		const totalWidth = this.props.totalWidth
 		const priText = this.props.primaryText || defaultPrimaryText
 		const secText = this.props.secondaryText || defaultSecondaryText
@@ -54,28 +59,47 @@ class Panel extends React.Component {
 
 		const priES = {
 			top: priTop + 'px',
-			width: totalWidth*6/7 + 'px',
+			width: totalWidth*panelWidthProportion + 'px',
 			fontSize: primaryTextFontSize + 'px',
+			opacity: textOpacity +''
 			//transition: 'text-shadow 50ms ease-in'
 		}
 		Object.assign(priES, this.state.priTextShadow)
 		const secES = {
 			top: secTop + 'px',
-			width: totalWidth*6/7+ 'px',
+			width: totalWidth*panelWidthProportion+ 'px',
 			fontSize: secondaryTextFontSize + 'px',
+			opacity: textOpacity +''
 			//transition: 'text-shadow 50ms ease-in'
 		}
 		Object.assign(secES, this.state.secTextShadow)
 
 		return (
-			<div onMouseMove = {this.shadowListener} className = {styles.panelHidden} style = {panelES}>
+			<div onMouseMove = {this.shadowMoveListener} onMouseLeave = {this.shadowLeaveListener} className = {styles.panelHidden} style = {panelES}>
 				<div className = {styles.panelPrimary} style = {priES} > {priText} </div>
 				<div className = {styles.panelSecondary} style = {secES} > {secText} </div>
 			</div>
 		)
 	}
 
-	shadowListener(e) {
+
+	shadowLeaveListener(e) {
+		e.stopPropagation();
+		this.setState({
+			priTextShadow : {
+				textShadow: '0 3px 20px rgba(0,0,0,0.7)',
+				transition: 'text-shadow 300ms ease-in-out'
+			},
+			secTextShadow : {
+				textShadow: '0 1px 10px rgba(0,0,0,0.7)',
+				transition: 'text-shadow 300ms ease-in-out'
+			}
+		})
+	}
+
+	shadowMoveListener(e) {
+		const panelWidthProportion = this.props.widthProportion
+		const panelHeightProportion = panelWidthProportion*whRatio
 		e.stopPropagation() 
 		let ct = e.currentTarget
 		/*
@@ -127,7 +151,8 @@ class Panel extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    totalWidth: state.totalWidth
+    totalWidth: state.totalWidth,
+    widthProportion: state.constants.widthProportion
   }
 }
 

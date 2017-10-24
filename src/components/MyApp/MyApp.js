@@ -16,10 +16,12 @@ class MyApp extends React.Component {
     window.onresize = this.props.windowResize
     const totalWidth = this.props.totalWidth
     const navHeight = this.props.navHeight
+    const widthProportion = this.props.widthProportion
+    
     const contentSizingES = {
       position: 'absolute',
-      left: totalWidth/14 + 'px',
-      width: totalWidth*6/7 + 'px',
+      width: totalWidth*widthProportion + 'px',
+      left: totalWidth*(1-widthProportion)/2 + 'px',
       top: 0 + 'px',
       position: 'absolute',
       display: 'flex',
@@ -55,7 +57,8 @@ const mapStateToProps = (state) => {
   return {
     totalWidth: state.totalWidth,
     view: state.view,
-    navHeight: state.constants.navHeight
+    navHeight: state.constants.navHeight,
+    widthProportion: state.constants.widthProportion
   }
 }
 
