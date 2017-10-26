@@ -14,7 +14,11 @@ class ContactSection extends React.Component {
 	render() {
 		const inners = (
 			<div>
-				<Panel primaryText = {"Contact"} bgImgUrl = {bgImgUrl} fontColor = {fontColor}/>
+				<Panel 
+					primaryText = {"Contact"} 
+					bgImgUrl = {bgImgUrl} 
+					fontColor = {fontColor}
+				/>
 
 				<div>  </div>
 

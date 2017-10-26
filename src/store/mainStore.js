@@ -1,13 +1,19 @@
 import {createStore, combineReducers} from 'redux'
-import {view, totalWidth, constants} from './reducers'
+import {view, totalWidth, constants, bio} from './reducers'
 
-var combined = combineReducers({view, totalWidth, constants})
+var combined = combineReducers({
+	view, 
+	totalWidth, 
+	constants, 
+	bio
+})
+
 let store = createStore(combined)
 
 store.subscribe( 
 	() => {
 		console.log( 
-			JSON.stringify(store.getState() ) 
+			JSON.stringify( store.getState() ) 
 		)
 	}
 )

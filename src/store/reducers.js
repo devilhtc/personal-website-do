@@ -3,6 +3,8 @@
 // define default states 
 // and their correspoding reducers
 
+import myProjects from './projectList'
+
 const startingWidth = Math.max(window.innerWidth, 1400)
 const myName = {
 	firstName: "Kevin", 
@@ -13,6 +15,17 @@ const navHeight = 70
 var defaultView = "HOME"
 if (window.location.hash.length > 1) {
 	defaultView = window.location.hash.substring(2).toUpperCase()
+}
+
+
+const constantState = {
+	owner: myName,
+	navHeight: navHeight,
+	widthProportion: 6/7
+}
+
+const myBio = {
+	projects: myProjects
 }
 
 export const view = (state = defaultView , action) => {
@@ -35,11 +48,8 @@ export const totalWidth = (state = startingWidth, action) => {
 	return state
 }
 
-
-const constantState = {
-	owner: myName,
-	navHeight: navHeight,
-	widthProportion: 6/7
+export const bio = (state = myBio, action) => {
+	return state
 }
 
 export const constants = (state = constantState) => {

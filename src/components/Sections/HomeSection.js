@@ -13,7 +13,11 @@ class HomeSection extends React.Component {
 	render() {
 		const inners = (
 			<div>
-				<Panel primaryText = {"Home"} bgImgUrl = {bgImgUrl} fontColor = {fontColor}/>
+				<Panel 
+					primaryText = {"Home"} 
+					bgImgUrl = {bgImgUrl} 
+					fontColor = {fontColor}
+				/>
 
 				<div>  </div>
 

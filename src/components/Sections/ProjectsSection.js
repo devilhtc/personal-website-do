@@ -9,16 +9,28 @@ import Tile from '../Tile/Tile'
 
 const bgImgUrl = "./img/skyscraper.jpg"
 const fontColor = "white"
-const tileMargin = 12
+const tileMargin = 10
 
 class ProjectsSection extends React.Component {
 	render() {
 		const totalWidth = this.props.totalWidth
-		const projectTiles = [1,2,3].map((item, index)=> {
+		const projectsList = this.props.projects
+
+		const project2Tile = (item, index) => {
 			return (
-				<Tile totalWidth = {totalWidth} index = {index} key = {item} margin = {tileMargin}/>
+				<Tile 
+					totalWidth = {totalWidth} 
+					index = {index} 
+					key = {item.title} 
+					margin = {tileMargin}
+					contents = {item.description[0]}
+					title = {item.title}
+					links = {item.links}
+				/>
 			)
-		})
+		}
+
+		const projectTiles = projectsList.map(project2Tile)
 
 		const tileSectionES = {
 			paddingTop: tileMargin + 'px',
@@ -27,9 +39,19 @@ class ProjectsSection extends React.Component {
 
 		const inners = (
 			<div>
-				<Panel primaryText = {"Projects"} bgImgUrl = {bgImgUrl} fontColor = {fontColor}/>
+				<Panel 
+					primaryText = {"Projects"} 
+					bgImgUrl = {bgImgUrl} 
+					fontColor = {fontColor}
+				/>
 
-				<div className = {styles.tileSection} style = {tileSectionES}> {projectTiles} </div>
+				<div 
+					className = {styles.tileSection} 
+					style = {tileSectionES}
+				>
+					{projectTiles} 
+				</div>
+				
 
 				<Footer />
 			</div>
@@ -42,7 +64,8 @@ class ProjectsSection extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    totalWidth: state.totalWidth
+    totalWidth: state.totalWidth,
+    projects: state.bio.projects
   }
 }
 

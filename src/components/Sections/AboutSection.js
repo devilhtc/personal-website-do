@@ -13,7 +13,11 @@ class AboutSection extends React.Component {
 	render() {
 		const inners = (
 				<div>
-					<Panel primaryText = {"About"} bgImgUrl = {bgImgUrl} fontColor = {fontColor}/>
+					<Panel 
+						primaryText = {"About"} 
+						bgImgUrl = {bgImgUrl} 
+						fontColor = {fontColor}
+					/>
 
 					<div>  </div>
 

@@ -1,16 +1,41 @@
 import React from 'react'
 import styles from './Tile.css'
+import LinkTile from '../LinkTile/LinkTile'
 
 const titleMargin = 10
-const contentMargin = 10
-const titleFontSize = 30
+const contentMargin = titleMargin
+const titleFontSize = 33
 const contentFontSize = 22
 const tilePadding = 10
 const tileHeightProportion = 1/4
+const paddingRatios = [2, 1.5]
+const tileLinkHeight = 21
+const tileLinkDisToBottom = 30
+
+const projectLinkKeys = [
+   'github', 'report', 'link', 'youtube'
+]
 
 class Tile extends React.Component {
 	render() {
+		const tileTitle = this.props.title || "Tile Title"
+		const tileContents = this.props.contents || "Tile Content"
+		const tileLinks = this.props.links || {}
 		const margin = this.props.margin || 10
+
+		const linksToRender = projectLinkKeys.filter( (item, index) => {
+			return tileLinks[item]
+		}).map((item,index) => {
+			return (
+				<LinkTile 
+					height = {tileLinkHeight} 
+					content = {item.toUpperCase()}
+					link = {tileLinks[item]}
+					key = {item}
+				/>
+			)
+		})
+
 		const marginStyles = [
 			{
 				margin: margin + 'px',
@@ -20,13 +45,16 @@ class Tile extends React.Component {
 				marginRight: 0
 			}
 		]
+
 		const index = this.props.index || 0
 		const totalWidth = this.props.totalWidth || 1400
-
+		const tileHeight = totalWidth*tileHeightProportion
 		const TileES = {
-			height: totalWidth*tileHeightProportion + 'px',
-			padding: tilePadding + 'px',
-			paddingTop : 1.5 * tilePadding + 'px'
+			height: tileHeight + 'px',
+			padding: paddingRatios[1] * tilePadding + 'px '
+					 + paddingRatios[0] * tilePadding + 'px ' 
+					 + tilePadding + 'px ' 
+					 + paddingRatios[0] * tilePadding + 'px'
 		}
 
 		const titleES = {
@@ -39,10 +67,35 @@ class Tile extends React.Component {
 			fontSize: contentFontSize + 'px'
 		}
 
+		const tileLinkES = {
+			position: 'absolute',
+			display: 'flex',
+			flexDirection: 'row',
+			margin: contentMargin + 'px',
+			top: (tileHeight 
+				  - tileLinkHeight 
+				  - tileLinkDisToBottom) 
+				  + 'px'
+		}
+
 		return (
-			<div className = {styles.TileBox} style = {Object.assign({},marginStyles[index % 2], TileES)} >
-				<div style = {titleES} > Tile Title </div>
-				<div style = {contentES} > Tile Content </div>
+			<div 
+				className = {styles.tileBox} 
+				style = {Object.assign(
+					{},
+					marginStyles[index % 2], 
+					TileES
+				)} 
+			>
+				<div className = {styles.tileTitle} style = {titleES} > 
+					{tileTitle} 
+				</div>
+				<div className = {styles.tileContent} style = {contentES} > 
+					{tileContents} 
+				</div>
+				<div style = {tileLinkES}> 
+					{linksToRender}
+				</div>
 			</div>
 		)
 	}

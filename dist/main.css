@@ -7,8 +7,13 @@
 }
 
 @font-face {
-	font-family:'adobe-garamond-pro';
-	src: url("webfonts/adobe-garamond-pro/adobe-garamond-pro-regular.ttf") format("ttf");
+	font-family: 'adobe-garamond-pro';
+	src: url("webfonts/adobe-garamond-pro/adobe-garamond-pro-regular.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: 'proxima-nova-alt-regular';
+	src: url("webfonts/proxima-nova/proxima-nova-alt-regular.ttf") format("truetype");
 }
 
 body {
