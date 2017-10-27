@@ -58,6 +58,7 @@ class LinkTile extends React.Component {
                           } 
                onMouseEnter = { () => this.slideIn() } 
                onMouseLeave = { () => this.slideOut() }
+               onClick = {() => this.slideOut}
             > 
                suprious
             </a>

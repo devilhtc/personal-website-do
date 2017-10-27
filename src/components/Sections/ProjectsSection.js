@@ -23,7 +23,7 @@ class ProjectsSection extends React.Component {
 					index = {index} 
 					key = {item.title} 
 					margin = {tileMargin}
-					contents = {item.description[0]}
+					contents = {item.description}
 					title = {item.title}
 					links = {item.links}
 				/>
@@ -51,11 +51,11 @@ class ProjectsSection extends React.Component {
 				>
 					{projectTiles} 
 				</div>
-				
 
 				<Footer />
 			</div>
 		)
+
 		return (
 			<AnimateSection content = {inners}/>
 		)

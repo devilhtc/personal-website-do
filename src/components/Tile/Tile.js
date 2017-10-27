@@ -7,10 +7,11 @@ const contentMargin = titleMargin
 const titleFontSize = 33
 const contentFontSize = 22
 const tilePadding = 10
-const tileHeightProportion = 1/4
+const tileHeightProportion = 4/15
 const paddingRatios = [2, 1.5]
 const tileLinkHeight = 21
 const tileLinkDisToBottom = 30
+const descriptionLeftShift = 19
 
 const projectLinkKeys = [
    'github', 'report', 'link', 'youtube'
@@ -78,6 +79,13 @@ class Tile extends React.Component {
 				  + 'px'
 		}
 
+		const descriptionLeftShiftES = {
+			position: 'relative',
+			left: '-' + descriptionLeftShift + 'px'
+		}
+		const tileContentList = tileContents.map( (item, index) => {
+			return (<li style = {descriptionLeftShiftES} key = {item}> {item} </li>)
+		})
 		return (
 			<div 
 				className = {styles.tileBox} 
@@ -91,10 +99,12 @@ class Tile extends React.Component {
 					{tileTitle} 
 				</div>
 				<div className = {styles.tileContent} style = {contentES} > 
-					{tileContents} 
+					<ul>
+						{tileContentList} 
+					</ul>
 				</div>
-				<div style = {tileLinkES}> 
-					{linksToRender}
+				<div style = {tileLinkES}> 			
+			 		{linksToRender}					
 				</div>
 			</div>
 		)

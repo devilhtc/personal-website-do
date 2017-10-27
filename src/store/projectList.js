@@ -7,7 +7,7 @@ const myProjects = [
 		],
 		links: {
 			github: "https://github.com/devilhtc/personal-website-react",
-			link: "107.170.236.22:8000/"
+			link: "http://107.170.236.22:8000/"
 		}
 	},
 	{

@@ -73,9 +73,9 @@ class Panel extends React.Component {
 			//transition: 'text-shadow 50ms ease-in'
 		}
 		Object.assign(secES, this.state.secTextShadow)
-
+		//onMouseMove = {this.shadowMoveListener}
 		return (
-			<div onMouseMove = {this.shadowMoveListener} onMouseLeave = {this.shadowLeaveListener} className = {styles.panelHidden} style = {panelES}>
+			<div ref = "panelRef"  onMouseLeave = {this.shadowLeaveListener} className = {styles.panelHidden} style = {panelES}>
 				<div className = {styles.panelPrimary} style = {priES} > {priText} </div>
 				<div className = {styles.panelSecondary} style = {secES} > {secText} </div>
 			</div>
@@ -100,7 +100,7 @@ class Panel extends React.Component {
 	shadowMoveListener(e) {
 		const panelWidthProportion = this.props.widthProportion
 		const panelHeightProportion = panelWidthProportion*whRatio
-		e.stopPropagation() 
+		//let ct = this.refs.panelRef
 		let ct = e.currentTarget
 		/*
 		console.log(e.clientX)		
