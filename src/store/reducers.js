@@ -4,6 +4,7 @@
 // and their correspoding reducers
 
 import myProjects from './projectList'
+import educationList from './educationList'
 
 const startingWidth = Math.max(window.innerWidth, 1400)
 const myName = {
@@ -25,7 +26,8 @@ const constantState = {
 }
 
 const myBio = {
-	projects: myProjects
+	projects: myProjects,
+	education: educationList 
 }
 
 export const view = (state = defaultView , action) => {

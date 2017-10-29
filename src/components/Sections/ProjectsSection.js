@@ -5,18 +5,20 @@ import styles from './Sections.css'
 import Panel from '../Panel/Panel'
 import Footer from '../Footer/Footer'
 import AnimateSection from './AnimateSection'
-import Tile from '../Tile/Tile'
+import Tile from '../Tiles/Tile'
 
 const bgImgUrl = "./img/skyscraper.jpg"
 const fontColor = "white"
 const tileMargin = 10
+const projectsNumCols = 2
+const tileHeightProp = 7/30
 
 class ProjectsSection extends React.Component {
 	render() {
 		const totalWidth = this.props.totalWidth
 		const projectsList = this.props.projects
 
-		const project2Tile = (item, index) => {
+		const item2Tile = (item, index) => {
 			return (
 				<Tile 
 					totalWidth = {totalWidth} 
@@ -26,15 +28,23 @@ class ProjectsSection extends React.Component {
 					contents = {item.description}
 					title = {item.title}
 					links = {item.links}
+					numCols = {projectsNumCols}
+					heightProp = {tileHeightProp}
 				/>
 			)
 		}
 
-		const projectTiles = projectsList.map(project2Tile)
-
+		const projectTiles = projectsList.map(item2Tile)
+		const frNumCols = Array.from(
+			new Array(projectsNumCols), 
+			(item, index) => index + 1
+		).map(
+			(item) => '1fr'
+		)
 		const tileSectionES = {
 			paddingTop: tileMargin + 'px',
-			paddingBottom: tileMargin + 'px'
+			paddingBottom: tileMargin + 'px',
+			gridTemplateColumns: frNumCols.join(' ')
 		}
 
 		const inners = (
@@ -46,7 +56,7 @@ class ProjectsSection extends React.Component {
 				/>
 
 				<div 
-					className = {styles.tileSection} 
+					className = {styles.projectTileSection} 
 					style = {tileSectionES}
 				>
 					{projectTiles} 

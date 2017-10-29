@@ -2,8 +2,31 @@
 
 }
 
-.tileSection {
+.projectTileSection {
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+	
 }
+
+.educationTileSection {
+	//display: flex;
+	//flex-direction: column;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+}
+
+.sectionSubtitles {
+	width: 100%;
+	text-align: center;
+	margin: 10px;
+	font-family: 'Raleway';
+	font-size: 43;
+}
+
+.sectionSeperation {
+	width: 100%;
+	height: 10px;
+}
+
+
+
 

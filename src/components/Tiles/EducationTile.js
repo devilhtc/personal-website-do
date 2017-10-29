@@ -5,7 +5,7 @@ import LinkTile from '../LinkTile/LinkTile'
 const titleMargin = 10
 const contentMargin = titleMargin
 const titleFontSize = 33
-const contentFontSize = 22
+const contentFontSize = 19
 const tilePadding = 10
 const tileHeightProportion = 4/15
 const paddingRatios = [2, 1.5]
@@ -17,7 +17,7 @@ const projectLinkKeys = [
    'github', 'report', 'link', 'youtube'
 ]
 
-class Tile extends React.Component {
+class EducationTile extends React.Component {
 	render() {
 		const tileTitle = this.props.title || "Tile Title"
 		const tileContents = this.props.contents || "Tile Content"
@@ -111,4 +111,4 @@ class Tile extends React.Component {
 	}
 }
 
-export default Tile
+export default EducationTile
