@@ -11,12 +11,35 @@ const paddingRatios = [2, 1.5]
 const tileLinkHeight = 21
 const tileLinkDisToBottom = 30
 const descriptionLeftShift = 19
-
+const bgSizePercentage = 120
 const projectLinkKeys = [
    'github', 'report', 'link', 'youtube'
 ]
 
 class Tile extends React.Component {
+	constructor(props) {
+		super(props)
+		this.state = {
+			mouseOver: false,
+			pristine: true
+		}
+		this.mouseEnterListener = this.mouseEnterListener.bind(this)
+		this.mouseLeaveListener = this.mouseLeaveListener.bind(this)
+	}
+
+	mouseEnterListener(e) {
+		this.setState({
+			mouseOver: true,
+			pristine: false
+		})
+	}
+
+	mouseLeaveListener(e) {
+		this.setState({
+			mouseOver:false
+		})
+	}
+
 	render() {
 		const titleMargin = this.props.margin || 10
 		const contentMargin = titleMargin
@@ -62,8 +85,9 @@ class Tile extends React.Component {
 			height: tileHeight + 'px',
 			padding: paddingRatios[1] * tilePadding + 'px '
 					 + paddingRatios[0] * tilePadding + 'px ' 
-					 + tilePadding + 'px ' 
-					 + paddingRatios[0] * tilePadding + 'px'
+					 + 0 + 'px ' 
+					 + paddingRatios[0] * tilePadding + 'px',
+			textShadow: '0 0 2px rgba(255,255,255,0.7)'
 		}
 
 		const titleES = {
@@ -103,17 +127,26 @@ class Tile extends React.Component {
 			}
 			return marginStyles[1]
 		})[0]
+
 		const bgImgES = {
-			position: 'absolute'
+			position: 'absolute',
+			left: '-' + ( paddingRatios[0] * tilePadding) + 'px',
+			top: '-' + ( paddingRatios[0] * tilePadding) + 'px'
 		}
 		if (bgImgUrl !== '') {
 			Object.assign(
 				bgImgES,
 				{
-					backgroundImage:'url("'+bgImgUrl+'")'
+					backgroundImage:'url("'+bgImgUrl+'")',
+					backgroundPosition: '-60% 0%',
+					backgroundRepeat: 'no-repeat',
+					width: bgSizePercentage + '%',
+					height: bgSizePercentage + '%',
+					zIndex: '-1'
 				}
 			)
 		}
+
 		return (
 			<div 
 				className = {styles.tileBox} 
@@ -122,8 +155,18 @@ class Tile extends React.Component {
 					colPlacementES, 
 					TileES
 				)} 
+				onMouseEnter = {
+					this.mouseEnterListener
+				} 
+				onMouseLeave = {
+					this.mouseLeaveListener
+				}
 			>
-				<div style = {bgImgES}> </div>
+				<div style = {bgImgES} className = {
+					this.state.pristine ? styles.bgImgOriginal :
+					(this.state.mouseOver ? styles.bgImgFocus : styles.bgImgUnfocus)
+				}>
+				</div>
 				<div className = {styles.tileTitle} style = {titleES} > 
 					{tileTitle} 
 				</div>

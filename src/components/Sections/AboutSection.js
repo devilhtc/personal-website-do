@@ -27,8 +27,10 @@ class AboutSection extends React.Component {
 					contents = {item.description}
 					title = {item.title}
 					links = {item.links}
+					bgImgUrl = {item.bgImgUrl}
 					numCols = {educationNumCols}
 					heightProp = {tileHeightProp}
+
 				/>
 			)
 		}
@@ -47,14 +49,14 @@ class AboutSection extends React.Component {
 			paddingBottom: tileMargin + 'px',
 			gridTemplateColumns: frNumCols.join(' ')
 		}
-
-		const inners = (
-				<div>
-					<Panel 
+		const aboutPanel = (<Panel 
 						primaryText = {"About"} 
 						bgImgUrl = {bgImgUrl} 
 						fontColor = {fontColor}
-					/>
+					/>)
+		const inners = (
+				<div>
+					{aboutPanel}
 					<div className = {styles.sectionSeperation}> </div>
 					<div>
 						<div className = {styles.sectionSubtitles}> Education </div>

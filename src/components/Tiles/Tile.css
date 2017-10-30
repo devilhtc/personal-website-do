@@ -1,4 +1,9 @@
 .tileBox {
+    --focusOpacity: 0.27;
+    --unfocusOpacity: 0.20;
+    --bgFocusSize: 76%;
+    --bgUnfocusSize: 75%;
+    --animationDuration: 300ms;
 	position: relative;
     box-shadow: 0 2px 3px rgba(0,0,0,0.20), 0 1px 3px rgba(0,0,0,0.25);
     transition: box-shadow 170ms ease-in;
@@ -14,8 +19,6 @@
 	box-shadow: 0 7px 10px rgba(0,0,0,0.32), 0 3px 6px rgba(0,0,0,0.28);
 	//position: relative;
 	//top: -1px;
-
-
 }
 
 .tileTitle {
@@ -26,3 +29,57 @@
 
 }
 
+.bgImgOriginal {
+    opacity: var(--unfocusOpacity);
+    background-size: var(--bgUnfocusSize);
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+}
+
+.bgImgFocus {
+    animation-duration: var(--animationDuration);
+    animation-name: bgImgFocusAni;
+    opacity: var(--focusOpacity);
+    background-size: var(--bgFocusSize);
+    filter: none;
+    -webkit-filter: none;
+}
+
+.bgImgUnfocus {
+    animation-duration: var(--animationDuration);
+    animation-name: bgImgUnfocusAni;
+    opacity: var(--unfocusOpacity);
+    background-size: var(--bgUnfocusSize);
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+}
+
+@keyframes bgImgFocusAni {
+    from {
+        opacity: var(--unfocusOpacity);
+        background-size: var(--bgUnfocusSize);
+        filter: grayscale(100%);
+        -webkit-filter: grayscale(100%);
+    }
+    to {
+        opacity: var(--focusOpacity);
+        background-size: var(--bgFocusSize);
+        filter: none;
+        -webkit-filter: none;
+    }
+}
+
+@keyframes bgImgUnfocusAni {
+    from {
+        opacity: var(--focusOpacity);
+        background-size: var(--bgFocusSize);
+        filter: none;
+        -webkit-filter: none;
+    }
+    to {
+        opacity: var(--unfocusOpacity);
+        background-size: var(--bgUnfocusSize);
+        filter: grayscale(100%);
+        -webkit-filter: grayscale(100%);
+    }
+}
