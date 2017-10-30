@@ -5,6 +5,7 @@
 
 import myProjects from './projectList'
 import educationList from './educationList'
+import socialLinks from './socialMediaList'
 
 const startingWidth = Math.max(window.innerWidth, 1400)
 const myName = {
@@ -27,7 +28,8 @@ const constantState = {
 
 const myBio = {
 	projects: myProjects,
-	education: educationList 
+	education: educationList,
+	socialLinks: socialLinks
 }
 
 export const view = (state = defaultView , action) => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './LinkTile.css'
+import styles from './Links.css'
 
 class LinkTile extends React.Component {
    constructor(props) {
@@ -59,6 +59,7 @@ class LinkTile extends React.Component {
                onMouseEnter = { () => this.slideIn() } 
                onMouseLeave = { () => this.slideOut() }
                onClick = {() => this.slideOut}
+               target = {"_blank"}
             > 
                suprious
             </a>

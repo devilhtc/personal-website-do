@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './Tile.css'
-import LinkTile from '../LinkTile/LinkTile'
+import LinkTile from '../Links/LinkTile'
 
 
 const titleFontSize = 31
@@ -19,14 +19,16 @@ const projectLinkKeys = [
 class Tile extends React.Component {
 	constructor(props) {
 		super(props)
+		/*
 		this.state = {
 			mouseOver: false,
 			pristine: true
 		}
 		this.mouseEnterListener = this.mouseEnterListener.bind(this)
 		this.mouseLeaveListener = this.mouseLeaveListener.bind(this)
+		*/
 	}
-
+	/*
 	mouseEnterListener(e) {
 		this.setState({
 			mouseOver: true,
@@ -39,6 +41,7 @@ class Tile extends React.Component {
 			mouseOver:false
 		})
 	}
+	*/
 
 	render() {
 		const titleMargin = this.props.margin || 10
@@ -155,16 +158,9 @@ class Tile extends React.Component {
 					colPlacementES, 
 					TileES
 				)} 
-				onMouseEnter = {
-					this.mouseEnterListener
-				} 
-				onMouseLeave = {
-					this.mouseLeaveListener
-				}
 			>
 				<div style = {bgImgES} className = {
-					this.state.pristine ? styles.bgImgOriginal :
-					(this.state.mouseOver ? styles.bgImgFocus : styles.bgImgUnfocus)
+				 	styles.bgImgOriginal
 				}>
 				</div>
 				<div className = {styles.tileTitle} style = {titleES} > 

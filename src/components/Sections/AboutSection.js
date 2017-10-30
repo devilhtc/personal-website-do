@@ -79,7 +79,8 @@ class AboutSection extends React.Component {
 const mapStateToProps = (state) => {
   return {
     totalWidth: state.totalWidth,
-    educationList: state.bio.education
+    educationList: state.bio.education,
+    widthProportion: state.constants.widthProportion
   }
 }
 

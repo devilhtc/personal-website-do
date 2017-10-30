@@ -2,6 +2,7 @@
 .navbarAll {
     position: absolute;
     font-family: 'Raleway';
+
     // background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 130%); 
     // box-shadow: 0 4px 8px rgba(0,0,0,0.20), 0 1px 3px rgba(0,0,0,0.28);
     //-webkit-backdrop-filter: blur(2px);
@@ -33,6 +34,7 @@
 
 .navNames {
 	//text-shadow: 0 0px 5px rgba(255,255,255,0.40);
-	margin-left:30px;
+	margin-left: 30px;
+	text-shadow: 0 0 4px rgba(255,255,255,0.5);
 }
 

@@ -56,3 +56,36 @@
     top: 0;
 	opacity: 100%;
 }
+
+.padAll {
+	--myDur: 400ms;
+	--myBgScaleRatio: scale(1.0,1.0);
+	--myIconScaleRatio: scale(0.5,0.5);
+	--myFilter: grayscale(100%);
+
+}
+
+.padAll:hover {
+	--myBgScaleRatio: scale(1.25,1.25);
+	--myIconScaleRatio: scale(0.95,0.95);
+	--myFilter: grayscale(0%);
+
+}
+
+.padHalo {
+	filter: var(--myFilter);
+	transform: var(--myBgScaleRatio);
+	opacity: 0.8;
+	transition: transform var(--myDur), filter var(--myDur);
+
+}
+
+
+
+.padIcon {
+	transform: var(--myIconScaleRatio);
+	transition: transform var(--myDur);
+}
+
+
+
