@@ -61,25 +61,31 @@
 	--myDur: 400ms;
 	--myBgScaleRatio: scale(1.0,1.0);
 	--myIconScaleRatio: scale(0.5,0.5);
-	--myFilter: grayscale(100%);
+	--myOpacity1: 0.8;
+	--myOpacity2: 0;
 
 }
 
 .padAll:hover {
 	--myBgScaleRatio: scale(1.25,1.25);
 	--myIconScaleRatio: scale(0.95,0.95);
-	--myFilter: grayscale(0%);
-
+	--myOpacity1: 0;
+	--myOpacity2: 0.8;
 }
 
-.padHalo {
-	filter: var(--myFilter);
+.padHalo1 {
+	background-color: #555555;
 	transform: var(--myBgScaleRatio);
-	opacity: 0.8;
-	transition: transform var(--myDur), filter var(--myDur);
-
+	opacity: var(--myOpacity1);
+	transition: transform var(--myDur), opacity var(--myDur);
 }
 
+.padHalo2 {
+	
+	transform: var(--myBgScaleRatio);
+	opacity: var(--myOpacity2);
+	transition: transform var(--myDur), opacity var(--myDur);
+}
 
 
 .padIcon {

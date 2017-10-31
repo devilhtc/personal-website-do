@@ -12,7 +12,17 @@ class LinkPad extends React.Component {
 		const iconUrl = this.props.iconUrl || ""
 		//iconUrl = "./img/social-media-links/github-icon-formatted.png"
 		const bgColor = this.props.bgColor || "#6e328f"
-		const padHaloES = {
+		const padHalo1ES = {
+			position: 'absolute',
+			width: defaultSize + 'px',
+			height: defaultSize + 'px',
+			borderRadius: defaultSize/2 + 'px',
+			//borderStyle: 'inset',
+			//borderImage: 'radial-gradient(' + bgColor + ' 0%, ' + bgColor + ' 50%, rgba(0,0,0,0) 100%)',
+			
+		}
+
+		const padHalo2ES = {
 			position: 'absolute',
 			width: defaultSize + 'px',
 			height: defaultSize + 'px',
@@ -44,7 +54,11 @@ class LinkPad extends React.Component {
 					href = {link} 
 					target = {"_blank"}
 				>
-					<div style = {padHaloES} className = {styles.padHalo}>
+					<div style = {padHalo1ES} className = {styles.padHalo1}>
+
+					</div>
+
+					<div style = {padHalo2ES} className = {styles.padHalo2}>
 
 					</div>
 
