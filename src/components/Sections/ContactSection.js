@@ -6,17 +6,82 @@ import Panel from '../Panel/Panel'
 import Footer from '../Footer/Footer'
 import AnimateSection from './AnimateSection'
 import LinkPad from '../Links/LinkPad'
+import SectionSeparator from './SectionSeparator'
 
 const bgImgUrl = "./img/abstract2.jpg"
 const fontColor = "white"
 const socialLinkNumCols = 8
 const linkMargin = 20
-const linkPadSize = 80
+const linkPadSize = 75
+const primaryText = "Connect"
+const secondaryText = "Let's have a chat!"
+const socialLinksWidthProp = 0.8
+
+const basicContactInfoList  = [
+	["Email", "th7@stanford.edu"],
+	["Phone", "919 813 9323"],
+	["Skype", "devilhtc@outlook.com"],
+	["Address", "723 Sierra Vista Ave, Mountain View"]
+]
+
+class BasicContactInfoLine extends React.Component {
+	render() {
+		const title = this.props.title
+		const content = this.props.content
+
+		const titleES = {
+			textAlign: 'right',
+			marginRight: '20px'
+		}
+		const contentES = {
+			textAlign: 'left'
+		}
+		const lineES = {
+			display: 'grid',
+			gridTemplateColumns: '7fr 1px 8fr',
+			margin: '2px'
+		}
+		return (
+			<div style = {lineES}>
+				<div style = {titleES}> {title} </div>
+				<div> </div>
+				<div style = {contentES}> {content} </div>
+		    </div>
+	    )
+	}
+}
+
+class BasicContantInfo extends React.Component {
+	render() {
+		const infoList = this.props.infoList
+		const infoSectionES = {
+			display: 'flex',
+			flexDirection: 'column'
+		}
+		const infoListLines = infoList.map((item, index) => {
+			return (
+				<BasicContactInfoLine 
+					key = {item[0] + index} 
+					title = {item[0]} 
+					content = {item[1]}
+				/>
+			)
+		})
+
+		return (
+			<div style = {infoSectionES} className = {styles.basicContactInfo}>
+				{infoListLines}
+			</div>
+		)
+	}
+}
+
 class ContactSection extends React.Component {
 	render() {
 		const contactPanel = (
 			<Panel 
-				primaryText = {"Contact"} 
+				primaryText = {primaryText} 
+				secondaryText = {secondaryText} 
 				bgImgUrl = {bgImgUrl} 
 				fontColor = {fontColor}
 			/>
@@ -24,10 +89,12 @@ class ContactSection extends React.Component {
 		
 		const socialLinks = this.props.socialLinks
 		const totalWidth = this.props.totalWidth
-		const sectionWidth = totalWidth * this.props.widthProportion * 1
-		const linkBoxWidth = sectionWidth / socialLinkNumCols
+		const sectionWidth = totalWidth * this.props.widthProportion 
+		const socialLinksWidth = sectionWidth * socialLinksWidthProp
+		const socialLinksMargin = sectionWidth * (1 - socialLinksWidthProp) / 2
+		const linkBoxWidth = socialLinksWidth / socialLinkNumCols
 		const linkBoxES = {
-			margin: linkMargin + 'px auto'
+			margin: linkMargin + 'px auto',
 		}
 		const socialLinksList = socialLinks.map( (item, index) => {
 			return (
@@ -48,11 +115,14 @@ class ContactSection extends React.Component {
 			(item) => {return linkBoxWidth + 'px'}
 		)
 
+
 		const SocialLinksES = {
+			width: socialLinksWidth + 'px',
+			marginLeft: socialLinksMargin + 'px',
+			marginRight: socialLinksMargin + 'px',
 			display: 'grid',
-			paddingTop: 0 + 'px',
-			paddingBottom: 0 + 'px',
-			gridTemplateColumns: frNumCols.join(' ')
+			gridTemplateColumns: frNumCols.join(' '),
+
 		}
 
 		const socialLinksDiv = (
@@ -65,7 +135,20 @@ class ContactSection extends React.Component {
 			<div>
 				{contactPanel}
 
+				<SectionSeparator />
+
+				<div className = {styles.sectionSubtitles}> Basic Contact Info </div>
+
+				
+				<BasicContantInfo infoList = {basicContactInfoList} />
+				
+				<SectionSeparator />
+
+				<div className = {styles.sectionSubtitles}> Other Links </div>
+
 				{socialLinksDiv}
+
+				<SectionSeparator />
 
 				<Footer />
 			</div>

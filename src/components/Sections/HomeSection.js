@@ -5,16 +5,20 @@ import styles from './Sections.css'
 import Panel from '../Panel/Panel'
 import Footer from '../Footer/Footer'
 import AnimateSection from './AnimateSection'
+import SectionSeparator from './SectionSeparator'
 
 const bgImgUrl = "./img/wolf2.png"
 const fontColor = "white"
+const primaryText = "Welcome"
+const secondaryText = "May the force be with you"
 
 class HomeSection extends React.Component {
 	render() {
 		const inners = (
 			<div>
 				<Panel 
-					primaryText = {"Home"} 
+					primaryText = {primaryText} 
+					secondaryText = {secondaryText} 
 					bgImgUrl = {bgImgUrl} 
 					fontColor = {fontColor}
 				/>

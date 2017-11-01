@@ -6,12 +6,15 @@ import Panel from '../Panel/Panel'
 import Footer from '../Footer/Footer'
 import AnimateSection from './AnimateSection'
 import Tile from '../Tiles/Tile'
+import SectionSeparator from './SectionSeparator'
 
 const bgImgUrl = "./img/oval.jpg"
 const fontColor = "white"
 const tileMargin = 10
 const educationNumCols = 3
 const tileHeightProp = 1/5
+const primaryText = "Discover"
+const secondaryText = "My passions and personality"
 
 class AboutSection extends React.Component {
 	render() {
@@ -50,22 +53,24 @@ class AboutSection extends React.Component {
 			gridTemplateColumns: frNumCols.join(' ')
 		}
 		const aboutPanel = (<Panel 
-						primaryText = {"About"} 
+						primaryText = {primaryText} 
+						secondaryText = {secondaryText} 
 						bgImgUrl = {bgImgUrl} 
 						fontColor = {fontColor}
 					/>)
 		const inners = (
 				<div>
 					{aboutPanel}
-					<div className = {styles.sectionSeperation}> </div>
-					<div>
-						<div className = {styles.sectionSubtitles}> Education </div>
-						<div className = {styles.educationTileSection} 
-							 style = {educationTilesES}
-						>
-							{educationTiles}
-						</div>
+					<SectionSeparator />
+					
+					<div className = {styles.sectionSubtitles}> Education </div>
+					<div className = {styles.educationTileSection} 
+						 style = {educationTilesES}
+					>
+						{educationTiles}
 					</div>
+					<SectionSeparator />
+
 					<Footer />
 				</div>
 			)

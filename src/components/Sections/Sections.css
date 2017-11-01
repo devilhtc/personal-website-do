@@ -17,16 +17,19 @@
 .sectionSubtitles {
 	width: 100%;
 	text-align: center;
-	margin: 10px;
+	margin: 15px;
 	font-family: 'Raleway';
 	font-size: 43;
 }
 
-.sectionSeperation {
+.sectionSeparation {
 	width: 100%;
-	height: 10px;
+	height: 20px;
 }
 
-
+.basicContactInfo {
+	font-family: 'Raleway';
+	font-size: 20;
+}
 
 

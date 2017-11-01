@@ -32,6 +32,8 @@ const myBio = {
 	socialLinks: socialLinks
 }
 
+const minWidth = 1200
+
 export const view = (state = defaultView , action) => {
 	if (action.type === 'SWITCH_VIEW') {
 		let payload = action.payload
@@ -47,7 +49,7 @@ export const view = (state = defaultView , action) => {
 
 export const totalWidth = (state = startingWidth, action) => {
 	if (action.type === 'CHANGE_WIDTH') {
-		return Math.max(window.innerWidth, 1400)
+		return Math.max(window.innerWidth, minWidth)
 	} 
 	return state
 }

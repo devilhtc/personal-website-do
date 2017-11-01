@@ -3,7 +3,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import styles from './Panel.css'
 
-const primaryTextFontSize = 150
+const primaryTextFontSize = 140
 const secondaryTextFontSize = 32
 const defaultPrimaryText = "Highlight"
 const defaultSecondaryText = "More explanatory text"
@@ -18,7 +18,7 @@ const secShadowY = 8
 const priShadowRadius = 20
 const secShadowRadius = 10
 const minBlur = 0.6
-const textOpacity = 0.92
+const textOpacity = 0.99
 
 class Panel extends React.Component {
 	constructor(props) {
@@ -75,7 +75,7 @@ class Panel extends React.Component {
 		Object.assign(secES, this.state.secTextShadow)
 		//onMouseMove = {this.shadowMoveListener}
 		return (
-			<div ref = "panelRef"  onMouseLeave = {this.shadowLeaveListener} className = {styles.panelHidden} style = {panelES}>
+			<div ref = "panelRef" onMouseLeave = {this.shadowLeaveListener} className = {styles.panelAll} style = {panelES}>
 				<div className = {styles.panelPrimary} style = {priES} > {priText} </div>
 				<div className = {styles.panelSecondary} style = {secES} > {secText} </div>
 			</div>

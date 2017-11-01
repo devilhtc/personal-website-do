@@ -6,12 +6,15 @@ import Panel from '../Panel/Panel'
 import Footer from '../Footer/Footer'
 import AnimateSection from './AnimateSection'
 import Tile from '../Tiles/Tile'
+import SectionSeparator from './SectionSeparator'
 
 const bgImgUrl = "./img/skyscraper.jpg"
 const fontColor = "white"
 const tileMargin = 10
 const projectsNumCols = 2
 const tileHeightProp = 7/30
+const primaryText = "Experience"
+const secondaryText = "As an emerging engineering"
 
 class ProjectsSection extends React.Component {
 	render() {
@@ -50,11 +53,14 @@ class ProjectsSection extends React.Component {
 		const inners = (
 			<div>
 				<Panel 
-					primaryText = {"Projects"} 
+					primaryText = {primaryText} 
+					secondaryText = {secondaryText}
 					bgImgUrl = {bgImgUrl} 
 					fontColor = {fontColor}
 				/>
 
+				<SectionSeparator />
+				
 				<div 
 					className = {styles.projectTileSection} 
 					style = {tileSectionES}

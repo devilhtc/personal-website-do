@@ -1,5 +1,7 @@
-.panelHidden {
-
+.panelAll {
+	--aniDur: 700ms;
+	--lowOpacity: 0.05;
+	--highOpacity: 1.00;
 }
 
 .panelPrimary {
@@ -11,6 +13,8 @@
 	font-family: 'Raleway';
 	letter-spacing: -1.5px;
 	font-weight: 600;
+	animation-name: panelPriIn;
+	animation-duration: var(--aniDur);
 }
 
 .panelSecondary {
@@ -23,4 +27,28 @@
 	letter-spacing: -0.2px;
 	font-weight: 400;
 	font-style: italic;
+	animation-name: panelSecIn;
+	animation-duration: var(--aniDur);
+}
+
+@keyframes panelPriIn {
+	from {
+		transform: translate(0px, -12px);
+		opacity: var(--lowOpacity);
+	}
+	to {
+		transform: translate(0px, 0px);
+		opacity: var(--highOpacity);
+	}
+}
+
+@keyframes panelSecIn {
+	from {
+		transform: translate(0px, 12px);
+		opacity: var(--lowOpacity);
+	}
+	to {
+		transform: translate(0px, 0px);
+		opacity: var(--highOpacity);
+	}
 }
