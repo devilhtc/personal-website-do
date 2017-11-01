@@ -5,7 +5,7 @@ import styles from './Sections.css'
 import Panel from '../Panel/Panel'
 import Footer from '../Footer/Footer'
 import AnimateSection from './AnimateSection'
-import Tile from '../Tiles/Tile'
+import EducationTile from '../Tiles/EducationTile'
 import SectionSeparator from './SectionSeparator'
 
 const bgImgUrl = "./img/oval.jpg"
@@ -19,10 +19,14 @@ const secondaryText = "My passions and personality"
 class AboutSection extends React.Component {
 	render() {
 		const totalWidth = this.props.totalWidth
+		const widthProportion = this.props.widthProportion
+		const sectionWidth = totalWidth * widthProportion
+		
 		const educationList = this.props.educationList
+		
 		const item2Tile = (item, index) => {
 			return (
-				<Tile 
+				<EducationTile 
 					totalWidth = {totalWidth} 
 					index = {index} 
 					key = {item.title} 
@@ -33,7 +37,6 @@ class AboutSection extends React.Component {
 					bgImgUrl = {item.bgImgUrl}
 					numCols = {educationNumCols}
 					heightProp = {tileHeightProp}
-
 				/>
 			)
 		}
@@ -50,7 +53,10 @@ class AboutSection extends React.Component {
 		const educationTilesES = {
 			paddingTop: tileMargin + 'px',
 			paddingBottom: tileMargin + 'px',
-			gridTemplateColumns: frNumCols.join(' ')
+			gridTemplateColumns: frNumCols.join(' '),
+			position: 'relative',
+			left: '-' + tileMargin + 'px',
+			width: sectionWidth + 2 * tileMargin
 		}
 		const aboutPanel = (<Panel 
 						primaryText = {primaryText} 

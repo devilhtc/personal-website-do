@@ -73,9 +73,10 @@ class Panel extends React.Component {
 			//transition: 'text-shadow 50ms ease-in'
 		}
 		Object.assign(secES, this.state.secTextShadow)
-		//onMouseMove = {this.shadowMoveListener}
+		// onMouseMove = {this.shadowMoveListener}
+		// onMouseLeave = {this.shadowLeaveListener}
 		return (
-			<div ref = "panelRef" onMouseLeave = {this.shadowLeaveListener} className = {styles.panelAll} style = {panelES}>
+			<div ref = "panelRef" className = {styles.panelAll} style = {panelES}>
 				<div className = {styles.panelPrimary} style = {priES} > {priText} </div>
 				<div className = {styles.panelSecondary} style = {secES} > {secText} </div>
 			</div>

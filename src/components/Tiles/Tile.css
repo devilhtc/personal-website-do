@@ -2,7 +2,7 @@
     --myOpacity: 0.20;
     --mySize: 75%;
     --myFilter: grayscale(100%);
-    --myDur: 300ms;
+    --myDur: 150ms;
 	position: relative;
     box-shadow: 0 2px 3px rgba(0,0,0,0.20), 0 1px 3px rgba(0,0,0,0.25);
     transition: box-shadow 170ms ease-in;
@@ -11,7 +11,6 @@
     flex-direction: column;
     font-family: 'Raleway', Lato, Helvetica Neue, sans-serif; 
     overflow: hidden;
-
 }
 
 .tileBox:hover {
@@ -42,6 +41,19 @@
                 filter var(--myDur) ease-in, 
                 -webkit-filter var(--myDur) ease-in;
 }
+
+
+.projectTileInverse {
+    filter: invert(0%);
+    transition: filter 170ms ease-in;
+    //box-shadow: 0 2px 3px rgba(0,0,0,0.20), 0 1px 3px rgba(0,0,0,0.25);
+}
+
+.projectTileInverse:hover {
+    filter: invert(100%);
+    //box-shadow: 0 7px 10px rgba(0,0,0,0.32), 0 3px 6px rgba(0,0,0,0.28);
+}
+
 
 /*
 

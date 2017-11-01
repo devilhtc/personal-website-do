@@ -47,11 +47,12 @@ class Tile extends React.Component {
 		const titleMargin = this.props.margin || 10
 		const contentMargin = titleMargin
 		const tileTitle = this.props.title || "Tile Title"
-		const tileContents = this.props.contents || "Tile Content"
+		const tileContents = this.props.contents 
 		const tileLinks = this.props.links || {}
 		const margin = titleMargin
 		const numCols = this.props.numCols
 		const bgImgUrl = this.props.bgImgUrl || ''
+		
 		const tileHeightProportion = this.props.heightProp || 5/15
 		const linksToRender = projectLinkKeys.filter( (item, index) => {
 			return tileLinks[item]
@@ -118,9 +119,8 @@ class Tile extends React.Component {
 			position: 'relative',
 			left: '-' + descriptionLeftShift + 'px'
 		}
-		const tileContentList = tileContents.map( (item, index) => {
-			return (<li style = {descriptionLeftShiftES} key = {item}> {item} </li>)
-		})
+
+		/*
 
 		const colPlacementES = [index].map((item) => {
 			if (item % numCols === 0) {
@@ -130,12 +130,16 @@ class Tile extends React.Component {
 			}
 			return marginStyles[1]
 		})[0]
+		*/
+		
+		const colPlacementES = marginStyles[1]
 
 		const bgImgES = {
 			position: 'absolute',
 			left: '-' + ( paddingRatios[0] * tilePadding) + 'px',
 			top: '-' + ( paddingRatios[0] * tilePadding) + 'px'
 		}
+		//console.log(bgImgUrl)
 		if (bgImgUrl !== '') {
 			Object.assign(
 				bgImgES,
@@ -148,8 +152,10 @@ class Tile extends React.Component {
 					zIndex: '-1'
 				}
 			)
+		} else {
+			TileES.backgroundColor = 'white'
 		}
-
+		//console.log(bgImgES)
 		return (
 			<div 
 				className = {styles.tileBox} 
@@ -167,9 +173,7 @@ class Tile extends React.Component {
 					{tileTitle} 
 				</div>
 				<div className = {styles.tileContent} style = {contentES} > 
-					<ul>
-						{tileContentList} 
-					</ul>
+					{tileContents}
 				</div>
 				<div style = {tileLinkES}> 			
 			 		{linksToRender}					

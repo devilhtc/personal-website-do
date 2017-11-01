@@ -5,13 +5,13 @@ import styles from './Sections.css'
 import Panel from '../Panel/Panel'
 import Footer from '../Footer/Footer'
 import AnimateSection from './AnimateSection'
-import Tile from '../Tiles/Tile'
+import ProjectTile from '../Tiles/ProjectTile'
 import SectionSeparator from './SectionSeparator'
 
 const bgImgUrl = "./img/skyscraper.jpg"
 const fontColor = "white"
 const tileMargin = 10
-const projectsNumCols = 2
+
 const tileHeightProp = 8/30
 const primaryText = "Experience"
 const secondaryText = "As an emerging engineer"
@@ -19,16 +19,19 @@ const secondaryText = "As an emerging engineer"
 class ProjectsSection extends React.Component {
 	render() {
 		const totalWidth = this.props.totalWidth
+		const widthProportion = this.props.widthProportion
+		const sectionWidth = widthProportion * totalWidth
 		const projectsList = this.props.projects
+		const projectsNumCols = totalWidth<1400 ? 2 : (totalWidth>1650 ? 4 : 3)
 
 		const item2Tile = (item, index) => {
 			return (
-				<Tile 
+				<ProjectTile 
 					totalWidth = {totalWidth} 
 					index = {index} 
 					key = {item.title} 
 					margin = {tileMargin}
-					contents = {item.description}
+					contents = {item.keywords}
 					title = {item.title}
 					links = {item.links}
 					numCols = {projectsNumCols}
@@ -47,7 +50,10 @@ class ProjectsSection extends React.Component {
 		const tileSectionES = {
 			paddingTop: tileMargin + 'px',
 			paddingBottom: tileMargin + 'px',
-			gridTemplateColumns: frNumCols.join(' ')
+			gridTemplateColumns: frNumCols.join(' '),
+			position: 'relative',
+			left: '-' + tileMargin + 'px',
+			width: sectionWidth + 2 * tileMargin
 		}
 
 		const inners = (
@@ -68,6 +74,8 @@ class ProjectsSection extends React.Component {
 					{projectTiles} 
 				</div>
 
+				<SectionSeparator />
+
 				<Footer />
 			</div>
 		)
@@ -81,7 +89,8 @@ class ProjectsSection extends React.Component {
 const mapStateToProps = (state) => {
   return {
     totalWidth: state.totalWidth,
-    projects: state.bio.projects
+    projects: state.bio.projects,
+    widthProportion: state.constants.widthProportion
   }
 }
 

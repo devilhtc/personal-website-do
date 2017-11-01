@@ -33,7 +33,7 @@
 
 @keyframes panelPriIn {
 	from {
-		transform: translate(0px, -12px);
+		transform: translate(0px, -15px);
 		opacity: var(--lowOpacity);
 	}
 	to {
@@ -44,7 +44,7 @@
 
 @keyframes panelSecIn {
 	from {
-		transform: translate(0px, 12px);
+		transform: translate(0px, 15px);
 		opacity: var(--lowOpacity);
 	}
 	to {
