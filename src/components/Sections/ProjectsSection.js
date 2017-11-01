@@ -12,9 +12,9 @@ const bgImgUrl = "./img/skyscraper.jpg"
 const fontColor = "white"
 const tileMargin = 10
 const projectsNumCols = 2
-const tileHeightProp = 7/30
+const tileHeightProp = 8/30
 const primaryText = "Experience"
-const secondaryText = "As an emerging engineering"
+const secondaryText = "As an emerging engineer"
 
 class ProjectsSection extends React.Component {
 	render() {
@@ -60,7 +60,7 @@ class ProjectsSection extends React.Component {
 				/>
 
 				<SectionSeparator />
-				
+
 				<div 
 					className = {styles.projectTileSection} 
 					style = {tileSectionES}

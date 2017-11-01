@@ -10,7 +10,7 @@ import SectionSeparator from './SectionSeparator'
 const bgImgUrl = "./img/wolf2.png"
 const fontColor = "white"
 const primaryText = "Welcome"
-const secondaryText = "May the force be with you"
+const secondaryText = "May the odds ever be in your favor"
 
 class HomeSection extends React.Component {
 	render() {

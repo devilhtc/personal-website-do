@@ -15,7 +15,7 @@ const myName = {
 
 const navHeight = 70
 var defaultView = "HOME"
-if (window.location.hash.length > 1) {
+if (window.location.hash.length > 2) {
 	defaultView = window.location.hash.substring(2).toUpperCase()
 }
 
