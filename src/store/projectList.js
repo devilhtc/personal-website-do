@@ -1,6 +1,17 @@
 const myProjects = [
 	{
-		title: "Personal Website",
+		title: "Deep Reinforcement Learning in Portfolio Management (ongoing)",
+		description: [
+		],
+		keywords: [
+			"Aritificial Intelligence", "Reinforcement Learning", "Portfolio Management", "TensorFlow", "Python"
+		],
+		links: {
+			github: "https://github.com/devilhtc/CS221-GroupProject"
+		}
+	},
+	{
+		title: "Personal Website (ongoing)",
 		description: [
 			"Designed and implemented a personal website as a Single Page Application with customized components using Adobe Experience Design Beta and ReactJS. ",
 			"Rewire event handling using Redux and deployed on DigitalOcean."
