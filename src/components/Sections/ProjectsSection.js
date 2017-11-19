@@ -7,8 +7,8 @@ import Footer from '../Footer/Footer'
 import AnimateSection from './AnimateSection'
 import ProjectTile from '../Tiles/ProjectTile'
 import SectionSeparator from './SectionSeparator'
-
-const bgImgUrl = "./img/skyscraper.jpg"
+import Utils from '../utils'
+const bgImgUrl = Utils.decorateUrl("./img/skyscraper.jpg")
 const fontColor = "white"
 const tileMargin = 10
 
@@ -17,11 +17,18 @@ const primaryText = "Experience"
 const secondaryText = "As an emerging engineer"
 
 class ProjectsSection extends React.Component {
+	constructor(props) {
+		super(props)
+		this.state = {
+			projectsList : []
+		}
+	}
+
 	render() {
 		const totalWidth = this.props.totalWidth
 		const widthProportion = this.props.widthProportion
 		const sectionWidth = widthProportion * totalWidth
-		const projectsList = this.props.projects
+
 		const projectsNumCols = totalWidth<1400 ? 2 : (totalWidth>1650 ? 4 : 3)
 
 		const item2Tile = (item, index) => {
@@ -40,7 +47,7 @@ class ProjectsSection extends React.Component {
 			)
 		}
 
-		const projectTiles = projectsList.map(item2Tile)
+		const projectTiles = this.state.projectsList.map(item2Tile)
 		const frNumCols = Array.from(
 			new Array(projectsNumCols), 
 			(item, index) => index + 1
@@ -83,6 +90,12 @@ class ProjectsSection extends React.Component {
 		return (
 			<AnimateSection content = {inners}/>
 		)
+	}
+
+	componentDidMount() {
+		this.setState({
+			projectsList : this.props.projects
+		})
 	}
 }
 

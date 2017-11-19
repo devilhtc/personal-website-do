@@ -7,8 +7,9 @@ import Footer from '../Footer/Footer'
 import AnimateSection from './AnimateSection'
 import EducationTile from '../Tiles/EducationTile'
 import SectionSeparator from './SectionSeparator'
+import Utils from '../utils'
 
-const bgImgUrl = "./img/oval.jpg"
+const bgImgUrl = Utils.decorateUrl( "./img/oval.jpg")
 const fontColor = "white"
 const tileMargin = 10
 const educationNumCols = 3

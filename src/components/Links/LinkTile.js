@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './Links.css'
-
+import Utils from '../utils'
 class LinkTile extends React.Component {
    constructor(props) {
       super(props)
@@ -31,6 +31,7 @@ class LinkTile extends React.Component {
 
    render() {
       const linkHref = this.props.link || ''
+
       const content = this.props.content || 'content'
       return (
          <div 
