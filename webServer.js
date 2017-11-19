@@ -10,6 +10,9 @@
  */
 
 /* jshint node: true */
+console.log('Warning: this way of serving this website is deprecated!!!')
+console.log('Please follow readme and use django wsgi server insteal!!!')
+
 
 var express = require('express');
 var path = require('path');

@@ -78,3 +78,5 @@ to run the server.
 
 To shut down the server, use ```head -1 nohup.out``` to find out what the process id is (inside the second pair of square brackets, in the form of ```[time] [pid] log content```). Then run ```kill pid``` to kill the process where ```pid``` is the numbers.
 
+**Or** go into the parent directory ```personal-website-do``` and run ```node webServer.js``` (However the newly setup REST API for data acquisition won't work.)
+
