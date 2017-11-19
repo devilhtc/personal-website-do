@@ -80,3 +80,5 @@ To shut down the server, use ```head -1 nohup.out``` to find out what the proces
 
 **Or** go into the parent directory ```personal-website-do``` and run ```node webServer.js``` (However the newly setup REST API for data acquisition won't work.)
 
+Also, please note that the dev server integrated within webpack does not work in this case.
+

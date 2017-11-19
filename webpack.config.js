@@ -21,7 +21,7 @@ module.exports = {
         ]
   },
   devServer: {
-        contentBase: path.resolve(__dirname, "dist"),
+        contentBase: path.resolve(__dirname, "devilhtc_do/"),
         port: 8000
   }
 };
