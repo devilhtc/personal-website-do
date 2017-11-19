@@ -25,7 +25,7 @@ SECRET_KEY = '2&!b8ums8ivwo+#x2_(u$gpn)6tqgt29_@m#93ztr6=90gns&!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', 'devilhtc.com']
 
 
 # Application definition
