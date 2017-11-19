@@ -20,7 +20,7 @@ var app = express();
 
 // We have the express static module (http://expressjs.com/en/starter/static-files.html) do all
 // the work for us.
-app.use(express.static(path.resolve(__dirname, 'dist')));
+app.use(express.static(path.resolve(__dirname, 'devilhtc_do')));
 
 var server = app.listen(portno, function () {
   var port = server.address().port;
