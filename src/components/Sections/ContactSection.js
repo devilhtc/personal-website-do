@@ -9,7 +9,7 @@ import LinkPad from '../Links/LinkPad'
 import SectionSeparator from './SectionSeparator'
 import Utils from '../utils'
 
-const bgImgUrl = Utils.decorateUrl("./img/abstract2.jpg")
+const bgImgUrl = "/static/img/abstract2.jpg"
 const fontColor = "white"
 const socialLinkNumCols = 8
 const linkMargin = 20

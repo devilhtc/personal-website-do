@@ -5,7 +5,7 @@ const educationList = [
 			"EE MS, 2016 - Present",
 			"GPA 3.89"
 		],
-		bgImgUrl: "./img/schools/stanford-logo.png",
+		bgImgUrl: "/static/img/schools/stanford-logo.png",
 		links: {
 		}
 	},
@@ -16,7 +16,7 @@ const educationList = [
 			"GPA 3.93",
 			"Graduated with High Extinction"
 		],
-		bgImgUrl: "./img/schools/duke-logo.png",
+		bgImgUrl: "/static/img/schools/duke-logo.png",
 		links: {
 		}
 	},
@@ -27,7 +27,7 @@ const educationList = [
 			"GPA 3.84",
 			"Ranked 1/72"
 		],
-		bgImgUrl: "./img/schools/sjtu-logo.png",
+		bgImgUrl: "/static/img/schools/sjtu-logo.png",
 		links: {
 		}
 	}

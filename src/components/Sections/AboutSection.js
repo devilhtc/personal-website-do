@@ -9,7 +9,7 @@ import EducationTile from '../Tiles/EducationTile'
 import SectionSeparator from './SectionSeparator'
 import Utils from '../utils'
 
-const bgImgUrl = Utils.decorateUrl( "./img/oval.jpg")
+const bgImgUrl =  "/static/img/oval.jpg"
 const fontColor = "white"
 const tileMargin = 10
 const educationNumCols = 3

@@ -8,7 +8,7 @@ import AnimateSection from './AnimateSection'
 import ProjectTile from '../Tiles/ProjectTile'
 import SectionSeparator from './SectionSeparator'
 import Utils from '../utils'
-const bgImgUrl = Utils.decorateUrl("./img/skyscraper.jpg")
+const bgImgUrl = "/static/img/skyscraper.jpg"
 const fontColor = "white"
 const tileMargin = 10
 

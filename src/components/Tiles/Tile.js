@@ -51,7 +51,7 @@ class Tile extends React.Component {
 		const tileLinks = this.props.links || {}
 		const margin = titleMargin
 		const numCols = this.props.numCols
-		const bgImgUrl = this.props.bgImgUrl ? Utils.decorateUrl(this.props.bgImgUrl) : '' 
+		const bgImgUrl = this.props.bgImgUrl || '' 
 		
 		const tileHeightProportion = this.props.heightProp || 5/15
 		const linksToRender = projectLinkKeys.filter( (item, index) => {

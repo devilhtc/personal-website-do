@@ -10,7 +10,7 @@ class LinkPad extends React.Component {
 	render() {
 		const defaultSize = this.props.defaultSize || 100
 		const link = this.props.link || "https://github.com/devilhtc"
-		const iconUrl = Utils.decorateUrl(this.props.iconUrl || ".")
+		const iconUrl = this.props.iconUrl || "."
 		
 		//iconUrl = "./img/social-media-links/github-icon-formatted.png"
 		const bgColor = this.props.bgColor || "#6e328f"

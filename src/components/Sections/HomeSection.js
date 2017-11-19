@@ -7,7 +7,8 @@ import Footer from '../Footer/Footer'
 import AnimateSection from './AnimateSection'
 import SectionSeparator from './SectionSeparator'
 import Utils from '../utils'
-const bgImgUrl = Utils.decorateUrl("./img/wolf2.png")
+
+const bgImgUrl = "/static/img/wolf2.png"
 const fontColor = "white"
 const primaryText = "Welcome"
 const secondaryText = "May the odds ever be in your favor"
