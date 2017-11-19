@@ -20,7 +20,7 @@ const myProjects = [
 			"Web Development", "Front-end", "ReactJS", "Redux", "Node.js", "Express.js", "Webpack", "Adobe XD", "Adobe PS", "JavaScript", "HTML", "CSS"
 		],
 		links: {
-			github: "https://github.com/devilhtc/personal-website-react",
+			github: "https://github.com/devilhtc/personal-website-do",
 			link: "http://devilhtc.com"
 		}
 	},

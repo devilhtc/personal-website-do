@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'devilhtc.com']
 
 INSTALLED_APPS = [
     'main',
+    'data',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
