@@ -5,7 +5,9 @@
 Personal Website built with 
 
 Front-end: ReactJS, Redux, node.js and Webpack. 
+
 Back-end: Django, SQLite and GUnicorn (wsgi server), WhiteNoise (for serving static files)
+
 Reverse Proxy: Nginx
 
 To run locally on 127.0.0.1:8000/
@@ -74,5 +76,5 @@ To use the script, first run ```chmod +x run.sh``` to make it executable and run
 
 to run the server. 
 
-To shut down the server, use ```head -1 nohup.out``` to find out what the process id is (inside the second pair of square brackets, in the form of ```[time] [pid] log content```. Then run ```kill pid``` to kill the process where ```pid``` is the numbers.
+To shut down the server, use ```head -1 nohup.out``` to find out what the process id is (inside the second pair of square brackets, in the form of ```[time] [pid] log content```). Then run ```kill pid``` to kill the process where ```pid``` is the numbers.
 
