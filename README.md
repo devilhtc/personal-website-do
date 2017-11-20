@@ -78,11 +78,10 @@ to run the server.
 
 To shut down the server, use ```head -1 nohup.out``` to find out what the process id is (inside the second pair of square brackets, in the form of ```[time] [pid] log content```). Then run ```kill pid``` to kill the process where ```pid``` is the numbers.
 
-**Or** go into the parent directory ```personal-website-do``` and run ```node webServer.js``` (However the newly setup REST API for data acquisition won't work.)
 
 Also, please note that 
 
-1. The dev server integrated within webpack does not work in this case.
+1. The dev server integrated within webpack does not work in this case. Also the ```webServer.js``` is now deprecated after I switched to REST API to serve static data.
 
 2. Currently the PROJECTS section is slow because I currently put all the styling as variables in JavaScript files. This will be improved once I finalized the design and set the styles in ```css``` files instead.
 
