@@ -1,5 +1,11 @@
 import json
 
+def getAllObjectsResponse(data, model):
+	qset = data.objects.all()
+	out = getAllObjects(qset, model)
+	response = json.dumps(out)
+	return response
+
 def getAllObjects(qset, model):
 	if model == 'education':
 		return [parseEducation(e) for e in qset]
@@ -9,6 +15,14 @@ def getAllObjects(qset, model):
 		return [parseSocialLink(s) for s in qset]
 	else:
 		return []
+
+def getAllImgUrls(qsetBgs, qsetIcons):
+	out = []
+	for qset in qsetBgs:
+		out += getALlBgImgUrl(qset)
+	for qset in qsetIcons:
+		out += getIconUrl(qset)
+	return out
 
 def parseEducation(e):
 	e2 = {}
@@ -32,3 +46,9 @@ def parseSocialLink(s):
 	s2['link'] = s.link
 	s2['bgColor'] = s.bg_color
 	return s2
+
+def getALlBgImgUrl(qset):
+	return [item.bg_img_url for item in qset]
+
+def getIconUrl(qset):
+	return [item.icon_url for item in qset]

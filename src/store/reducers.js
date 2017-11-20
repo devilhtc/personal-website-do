@@ -33,6 +33,8 @@ const myBio = {
 	educationFetched: false,
 	socialLinks: [],
 	socialLinksFetched: false,
+	cachedImgs: [],
+	cachedImgsFetched:false,
 }
 
 const minWidth = 1200
@@ -67,6 +69,9 @@ export const bio = (state = myBio, action) => {
 	}
 	if (!newState.socialLinksFetched && action.type === 'UPDATE_SOCIAL_LINKS') {
 		Object.assign(newState, {socialLinks: action.payload, socialLinksFetched: true})
+	}
+	if (!newState.cachedImgsFetched && action.type === 'UPDATE_CACHED_IMGS') {
+		Object.assign(newState, {cachedImgs: action.payload, cachedImgsFetched: true})
 	}
 	return newState
 }

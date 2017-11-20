@@ -10,6 +10,7 @@ import ProjectsSection from '../Sections/ProjectsSection'
 import ContactSection from '../Sections/ContactSection'
 import { HashRouter as Router, Route, Link } from 'react-router-dom'
 import styles from './MyApp.css'
+import axios from 'axios'
 
 class MyApp extends React.Component {
 	render() {

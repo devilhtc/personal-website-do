@@ -32,4 +32,10 @@
 	font-size: 20px;
 }
 
+.cachedImgs {
+	width: 0px;
+	height: 0px;
+	overflow: hidden;
+	position: absolute;
+}
 

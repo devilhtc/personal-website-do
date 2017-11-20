@@ -9,20 +9,20 @@ def respondData(request):
 	return HttpResponse("data ressponse")
 
 def respondEducation(request):
-	qset = Education.objects.all()
-	out = du.getAllObjects(qset, 'education')
-	response = json.dumps(out)
-	
+	response = du.getAllObjectsResponse(Education, 'education')
 	return HttpResponse(response)
 
 def respondProject(request):
-	qset = Project.objects.all()
-	out = du.getAllObjects(qset, 'project')
-	response = json.dumps(out)
+	response = du.getAllObjectsResponse(Project, 'project')
 	return HttpResponse(response)
 
 def respondSocialLink(request):
-	qset = SocialLink.objects.all()
-	out = du.getAllObjects(qset, 'social_link')
-	response = json.dumps(out)
+	response = du.getAllObjectsResponse(SocialLink, 'social_link')
+	return HttpResponse(response)
+
+def respondCacheImg(request):
+	qsetBgs = [Education.objects.all()]
+	qsetIcons = [SocialLink.objects.all()]
+	allImgUrls = du.getAllImgUrls(qsetBgs, qsetIcons)
+	response = json.dumps(allImgUrls)
 	return HttpResponse(response)
