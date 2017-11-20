@@ -80,5 +80,9 @@ To shut down the server, use ```head -1 nohup.out``` to find out what the proces
 
 **Or** go into the parent directory ```personal-website-do``` and run ```node webServer.js``` (However the newly setup REST API for data acquisition won't work.)
 
-Also, please note that the dev server integrated within webpack does not work in this case.
+Also, please note that 
+
+1. The dev server integrated within webpack does not work in this case.
+
+2. Currently the PROJECTS section is slow because I currently put all the styling as variables in JavaScript files. This will be improved once I finalized the design and set the styles in ```css``` files instead.
 
