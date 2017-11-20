@@ -8,6 +8,7 @@ import AnimateSection from './AnimateSection'
 import EducationTile from '../Tiles/EducationTile'
 import SectionSeparator from './SectionSeparator'
 import Utils from '../utils'
+import axios from 'axios'
 
 const bgImgUrl =  "/static/img/oval.jpg"
 const fontColor = "white"
@@ -86,6 +87,21 @@ class AboutSection extends React.Component {
 			<AnimateSection content = {inners}/>
 		)
 	}
+
+	componentDidMount() {
+		var self = this
+		var dataUrl = '/data/education'
+		axios.get(dataUrl)
+			.then( (response) => {
+				console.log('received data from '+ dataUrl)
+				console.log(response.data)
+				self.props.updateEducationList(response.data)
+			})
+			.catch( (err) => {
+				console.log(err)
+			})
+		
+	}
 }
 
 const mapStateToProps = (state) => {
@@ -97,7 +113,14 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  	return {}
+  	return {
+  		updateEducationList: (v) => {
+  			dispatch({
+  				type: 'UPDATE_EDUCATION_LIST',
+  				payload: v
+  			})
+  		}
+  	}
 }
 
 export default connect(

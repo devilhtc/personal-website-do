@@ -1,3 +1,21 @@
+import axios from 'axios'
+
+
+var educationList = []
+axios.get('/data/education')
+	.then( (response) => {
+		console.log(response.data)
+		educationList = response.data
+	})
+	.catch( (err) => {
+		console.log(err)
+	})
+	
+export default educationList
+
+
+/*
+
 const educationList = [
 	{
 		title: "Stanford University",
@@ -32,5 +50,4 @@ const educationList = [
 		}
 	}
 ]
-
-export default educationList
+*/

@@ -8,6 +8,8 @@ import AnimateSection from './AnimateSection'
 import ProjectTile from '../Tiles/ProjectTile'
 import SectionSeparator from './SectionSeparator'
 import Utils from '../utils'
+import axios from 'axios'
+
 const bgImgUrl = "/static/img/skyscraper.jpg"
 const fontColor = "white"
 const tileMargin = 10
@@ -20,7 +22,7 @@ class ProjectsSection extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			projectsList : []
+			projectsList : this.props.projects
 		}
 	}
 
@@ -93,9 +95,20 @@ class ProjectsSection extends React.Component {
 	}
 
 	componentDidMount() {
-		this.setState({
-			projectsList : this.props.projects
-		})
+		var self = this
+		var dataUrl = '/data/project'
+		axios.get(dataUrl)
+			.then( (response) => {
+				console.log('received data from '+ dataUrl)
+				console.log(response.data)
+				self.props.updateProjectList(response.data)
+				this.setState({
+					projectsList: this.props.projects
+				})
+			})
+			.catch( (err) => {
+				console.log(err)
+			})
 	}
 }
 
@@ -108,7 +121,14 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  	return {}
+  	return {
+  		updateProjectList: (v) => {
+  			dispatch({
+  				type: 'UPDATE_PROJECT_LIST',
+  				payload: v
+  			})
+  		}
+  	}
 }
 
 export default connect(

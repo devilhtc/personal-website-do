@@ -3,8 +3,8 @@
 // define default states 
 // and their correspoding reducers
 
-import myProjects from './projectList'
-import educationList from './educationList'
+//import myProjects from './projectList'
+//import educationList from './educationList'
 import socialLinks from './socialMediaList'
 
 const startingWidth = Math.max(window.innerWidth, 1400)
@@ -27,8 +27,8 @@ const constantState = {
 }
 
 const myBio = {
-	projects: myProjects,
-	education: educationList,
+	projects: [],
+	education: [],
 	socialLinks: socialLinks
 }
 
@@ -55,9 +55,16 @@ export const totalWidth = (state = startingWidth, action) => {
 }
 
 export const bio = (state = myBio, action) => {
-	return state
+	var newState = JSON.parse(JSON.stringify(state))
+	if (action.type === 'UPDATE_EDUCATION_LIST') {
+		Object.assign(newState, {education: action.payload})
+	} 
+	if (action.type === 'UPDATE_PROJECT_LIST') {
+		Object.assign(newState, {projects: action.payload})
+	}
+	return newState
 }
 
-export const constants = (state = constantState) => {
+export const constants = (state = constantState, action) => {
 	return state
 }
