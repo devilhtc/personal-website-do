@@ -5,7 +5,7 @@
 
 //import myProjects from './projectList'
 //import educationList from './educationList'
-import socialLinks from './socialMediaList'
+//import socialLinks from './socialMediaList'
 
 const startingWidth = Math.max(window.innerWidth, 1400)
 const myName = {
@@ -28,8 +28,11 @@ const constantState = {
 
 const myBio = {
 	projects: [],
+	projectsFetched: false,
 	education: [],
-	socialLinks: socialLinks
+	educationFetched: false,
+	socialLinks: [],
+	socialLinksFetched: false,
 }
 
 const minWidth = 1200
@@ -56,11 +59,14 @@ export const totalWidth = (state = startingWidth, action) => {
 
 export const bio = (state = myBio, action) => {
 	var newState = JSON.parse(JSON.stringify(state))
-	if (action.type === 'UPDATE_EDUCATION_LIST') {
-		Object.assign(newState, {education: action.payload})
+	if (!newState.educationFetched && action.type === 'UPDATE_EDUCATION_LIST') {
+		Object.assign(newState, {education: action.payload, educationFetched: true})
 	} 
-	if (action.type === 'UPDATE_PROJECT_LIST') {
-		Object.assign(newState, {projects: action.payload})
+	if (!newState.projectsFetched && action.type === 'UPDATE_PROJECT_LIST') {
+		Object.assign(newState, {projects: action.payload, projectsFetched: true})
+	}
+	if (!newState.socialLinksFetched && action.type === 'UPDATE_SOCIAL_LINKS') {
+		Object.assign(newState, {socialLinks: action.payload, socialLinksFetched: true})
 	}
 	return newState
 }

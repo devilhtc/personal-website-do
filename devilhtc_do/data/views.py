@@ -20,3 +20,9 @@ def respondProject(request):
 	out = du.getAllObjects(qset, 'project')
 	response = json.dumps(out)
 	return HttpResponse(response)
+
+def respondSocialLink(request):
+	qset = SocialLink.objects.all()
+	out = du.getAllObjects(qset, 'social_link')
+	response = json.dumps(out)
+	return HttpResponse(response)

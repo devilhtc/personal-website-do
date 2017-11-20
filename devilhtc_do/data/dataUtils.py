@@ -5,6 +5,8 @@ def getAllObjects(qset, model):
 		return [parseEducation(e) for e in qset]
 	elif model == 'project':
 		return [parseProject(p) for p in qset]
+	elif model == 'social_link':
+		return [parseSocialLink(s) for s in qset]
 	else:
 		return []
 
@@ -22,3 +24,11 @@ def parseProject(p):
 	p2['keywords'] = json.loads(p.keywords)
 	p2['links'] = json.loads(p.links)
 	return p2
+
+def parseSocialLink(s):
+	s2 = {}
+	s2['name'] = s.name
+	s2['iconUrl'] = s.icon_url
+	s2['link'] = s.link
+	s2['bgColor'] = s.bg_color
+	return s2

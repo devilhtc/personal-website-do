@@ -8,6 +8,7 @@ import AnimateSection from './AnimateSection'
 import LinkPad from '../Links/LinkPad'
 import SectionSeparator from './SectionSeparator'
 import Utils from '../utils'
+import axios from 'axios'
 
 const bgImgUrl = "/static/img/abstract2.jpg"
 const fontColor = "white"
@@ -158,18 +159,42 @@ class ContactSection extends React.Component {
 			<AnimateSection content = {inners}/>
 		)
 	}
+
+	componentDidMount() {
+		if (!this.props.socialLinksFetched) {
+			var self = this
+			var dataUrl = '/data/sociallinks'
+			axios.get(dataUrl)
+				.then( (response) => {
+					console.log('received data from '+ dataUrl)
+					console.log(response.data)
+					self.props.updateSocialLinks(response.data)
+				})
+				.catch( (err) => {
+					console.log(err)
+				})
+		}
+	}
 }
 
 const mapStateToProps = (state) => {
   return {
     totalWidth: state.totalWidth,
     socialLinks: state.bio.socialLinks,
+    socialLinksFetched: state.bio.socialLinksFetched,
     widthProportion: state.constants.widthProportion
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  	return {}
+  	return {
+  		updateSocialLinks: (v) => {
+  			dispatch({
+  				type: 'UPDATE_SOCIAL_LINKS',
+  				payload: v
+  			})
+  		}
+  	}
 }
 
 export default connect(

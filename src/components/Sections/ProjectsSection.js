@@ -95,20 +95,22 @@ class ProjectsSection extends React.Component {
 	}
 
 	componentDidMount() {
-		var self = this
-		var dataUrl = '/data/project'
-		axios.get(dataUrl)
-			.then( (response) => {
-				console.log('received data from '+ dataUrl)
-				console.log(response.data)
-				self.props.updateProjectList(response.data)
-				this.setState({
-					projectsList: this.props.projects
+		if (!this.props.projectsFetched) {
+			var self = this
+			var dataUrl = '/data/project'
+			axios.get(dataUrl)
+				.then( (response) => {
+					console.log('received data from '+ dataUrl)
+					console.log(response.data)
+					self.props.updateProjectList(response.data)
+					this.setState({
+						projectsList: this.props.projects
+					})
 				})
-			})
-			.catch( (err) => {
-				console.log(err)
-			})
+				.catch( (err) => {
+					console.log(err)
+				})
+		}
 	}
 }
 
@@ -116,7 +118,8 @@ const mapStateToProps = (state) => {
   return {
     totalWidth: state.totalWidth,
     projects: state.bio.projects,
-    widthProportion: state.constants.widthProportion
+    widthProportion: state.constants.widthProportion,
+    projectsFetched: state.bio.projectsFetched,
   }
 }
 

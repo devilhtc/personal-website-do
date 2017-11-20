@@ -89,18 +89,19 @@ class AboutSection extends React.Component {
 	}
 
 	componentDidMount() {
-		var self = this
-		var dataUrl = '/data/education'
-		axios.get(dataUrl)
-			.then( (response) => {
-				console.log('received data from '+ dataUrl)
-				console.log(response.data)
-				self.props.updateEducationList(response.data)
-			})
-			.catch( (err) => {
-				console.log(err)
-			})
-		
+		if (!this.props.educationFetched) {
+			var self = this
+			var dataUrl = '/data/education'
+			axios.get(dataUrl)
+				.then( (response) => {
+					console.log('received data from '+ dataUrl)
+					console.log(response.data)
+					self.props.updateEducationList(response.data)
+				})
+				.catch( (err) => {
+					console.log(err)
+				})
+		}
 	}
 }
 
@@ -108,6 +109,7 @@ const mapStateToProps = (state) => {
   return {
     totalWidth: state.totalWidth,
     educationList: state.bio.education,
+    educationFetched: state.bio.educationFetched,
     widthProportion: state.constants.widthProportion
   }
 }
