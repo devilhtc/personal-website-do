@@ -7,6 +7,7 @@ import Footer from '../Footer/Footer'
 import AnimateSection from './AnimateSection'
 import LinkPad from '../Links/LinkPad'
 import SectionSeparator from './SectionSeparator'
+import DoubleColumnListingSection from './DoubleColumnListingSection'
 import Utils from '../utils'
 import axios from 'axios'
 
@@ -20,63 +21,12 @@ const secondaryText = "Let's have a chat!"
 const socialLinksWidthProp = 0.8
 
 const basicContactInfoList  = [
-	["Email", "th7@stanford.edu"],
-	["Phone", "919 813 9323"],
-	["Skype", "devilhtc@outlook.com"],
-	["Address", "723 Sierra Vista Ave, Mountain View"]
+	["Email", ["th7@stanford.edu", "devilmengsk@gmail.com"]],
+	["Phone", ["919 813 9323"]],
+	["Skype", ["devilhtc@outlook.com"]],
+	["Address", ["723 Sierra Vista Ave, Mountain View"]]
 ]
 
-class BasicContactInfoLine extends React.Component {
-	render() {
-		const title = this.props.title
-		const content = this.props.content
-
-		const titleES = {
-			textAlign: 'right',
-			marginRight: '20px'
-		}
-		const contentES = {
-			textAlign: 'left'
-		}
-		const lineES = {
-			display: 'grid',
-			gridTemplateColumns: '7fr 1px 8fr',
-			margin: '2px'
-		}
-		return (
-			<div style = {lineES}>
-				<div style = {titleES}> {title} </div>
-				<div> </div>
-				<div style = {contentES}> {content} </div>
-		    </div>
-	    )
-	}
-}
-
-class BasicContantInfo extends React.Component {
-	render() {
-		const infoList = this.props.infoList
-		const infoSectionES = {
-			display: 'flex',
-			flexDirection: 'column'
-		}
-		const infoListLines = infoList.map((item, index) => {
-			return (
-				<BasicContactInfoLine 
-					key = {item[0] + index} 
-					title = {item[0]} 
-					content = {item[1]}
-				/>
-			)
-		})
-
-		return (
-			<div style = {infoSectionES} className = {styles.basicContactInfo}>
-				{infoListLines}
-			</div>
-		)
-	}
-}
 
 class ContactSection extends React.Component {
 	render() {
@@ -133,6 +83,8 @@ class ContactSection extends React.Component {
 			</div>
 		)
 
+		/* <BasicContantInfo infoList = {basicContactInfoList} /> */
+
 		const inners = (
 			<div>
 				{contactPanel}
@@ -142,8 +94,8 @@ class ContactSection extends React.Component {
 				<div className = {styles.sectionSubtitles}> Basic Contact Info </div>
 
 				
-				<BasicContantInfo infoList = {basicContactInfoList} />
 				
+				<DoubleColumnListingSection listings = {basicContactInfoList} />
 				<SectionSeparator />
 
 				<div className = {styles.sectionSubtitles}> Other Links </div>
@@ -201,3 +153,58 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(ContactSection)
+
+/* DEPRECATED CLASSES
+class BasicContactInfoLine extends React.Component {
+	render() {
+		const title = this.props.title
+		const content = this.props.content
+
+		const titleES = {
+			textAlign: 'right',
+			marginRight: '20px'
+		}
+		const contentES = {
+			textAlign: 'left'
+		}
+		const lineES = {
+			display: 'grid',
+			gridTemplateColumns: '7fr 1px 8fr',
+			margin: '2px'
+		}
+		return (
+			<div style = {lineES}>
+				<div style = {titleES}> {title} </div>
+				<div> </div>
+				<div style = {contentES}> {content} </div>
+		    </div>
+	    )
+	}
+}
+
+class BasicContantInfo extends React.Component {
+	render() {
+		const infoList = this.props.infoList
+		const infoSectionES = {
+			display: 'flex',
+			flexDirection: 'column'
+		}
+		const infoListLines = infoList.map((item, index) => {
+			return (
+				<BasicContactInfoLine 
+					key = {item[0] + index} 
+					title = {item[0]} 
+					content = {item[1]}
+				/>
+			)
+		})
+
+		return (
+			<div style = {infoSectionES} className = {styles.basicContactInfo}>
+				{infoListLines}
+			</div>
+		)
+	}
+}
+*/
+

@@ -39,3 +39,38 @@
 	position: absolute;
 }
 
+.dclsContainer {
+	display: flex;
+	flex-direction: column;
+	font-family: 'Raleway';
+	font-size: 22px;
+}
+
+.dclsLine {
+	display: grid;
+	grid-template-columns: 15fr 16fr;
+	margin: 3px;
+	margin-bottom: 5px;
+}
+
+.dclsTitle {
+	text-align: right;
+	margin-right: 20px;
+	font-weight: 600;
+}
+
+.dclsContents {
+	text-align: left;
+	display: flex;
+	flex-direction: column;
+}
+
+.dclsLink {
+
+}
+
+.dclsLink:hover {
+	color: #0d2481;
+	font-weight: 600;
+}
+

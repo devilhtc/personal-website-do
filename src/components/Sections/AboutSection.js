@@ -7,6 +7,7 @@ import Footer from '../Footer/Footer'
 import AnimateSection from './AnimateSection'
 import EducationTile from '../Tiles/EducationTile'
 import SectionSeparator from './SectionSeparator'
+import DoubleColumnListingSection from './DoubleColumnListingSection'
 import Utils from '../utils'
 import axios from 'axios'
 
@@ -18,13 +19,29 @@ const tileHeightProp = 1/5
 const primaryText = "Discover"
 const secondaryText = "My passions and personality"
 
+
+const infoListings = [
+	["Who am I?", ["Stanford Student", "Emerging Engineer", "Problem Solver with Keen Senses", "Mostly A Geek"]],
+	["Career Interests", ["Web Developement", "Machine Learning"]],
+	["Languages", ["English", "Chinese", "German (beginner)"]],
+	["Hometown", ["Wuhan, China"]],
+	["Interests", ["Movies", "Artificial Intelligence", "Computer Vision", "Graphic Design"]],
+	['Resume', ["Dropbox", "https://www.dropbox.com/s/9n8zj87u35hidwj/resume_tianchang_he.pdf?dl=0"]]
+]
+
+const triviaListings = [
+	["Favorite Movie", ["The Dark Knight"]],
+	["Favorite Food", ["Sushi"]],
+	["Favorite Book", ["Angels and Demons"]],
+	["Favorite Color", ["Gray"]],
+	["Others", ["Don't drink coffee", "Loves Star Wars", "Owns a car with CarPlay"]]
+]
+
 class AboutSection extends React.Component {
 	render() {
 		const totalWidth = this.props.totalWidth
 		const widthProportion = this.props.widthProportion
 		const sectionWidth = totalWidth * widthProportion
-		
-		const educationList = this.props.educationList
 		
 		const item2Tile = (item, index) => {
 			return (
@@ -43,7 +60,9 @@ class AboutSection extends React.Component {
 			)
 		}
 
+		const educationList = this.props.educationList
 		const educationTiles = educationList.map(item2Tile)
+
 
 		const frNumCols = Array.from(
 			new Array(educationNumCols), 
@@ -79,6 +98,18 @@ class AboutSection extends React.Component {
 					</div>
 					<SectionSeparator />
 
+					<div className = {styles.sectionSubtitles}> Basic Info </div>
+					<SectionSeparator />
+					<DoubleColumnListingSection listings = {infoListings} />
+
+					
+					<SectionSeparator />
+					<div className = {styles.sectionSubtitles}> Trivia </div>
+					<SectionSeparator />
+					<DoubleColumnListingSection listings = {triviaListings} />
+
+					<SectionSeparator />
+					<SectionSeparator />
 					<Footer />
 				</div>
 			)

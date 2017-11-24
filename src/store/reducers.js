@@ -19,7 +19,6 @@ if (window.location.hash.length > 2) {
 	defaultView = window.location.hash.substring(2).toUpperCase()
 }
 
-
 const constantState = {
 	owner: myName,
 	navHeight: navHeight,
