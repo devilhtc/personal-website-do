@@ -5,7 +5,11 @@ from django.http import HttpResponse
 from django.template import loader
 from django.views.generic import TemplateView
 from .goldenUtils import twitterUtil as tu
-import urllib.parse as urlparse
+import sys
+if sys.version_info[0]<3:
+	import urlparse
+else:
+	import urllib.parse as urlparse
 import json
 
 class goldenTwitterView(TemplateView):
