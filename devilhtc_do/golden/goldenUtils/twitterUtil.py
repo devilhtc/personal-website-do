@@ -1,9 +1,11 @@
 import tweepy
+'''
 import sys
 if sys.version_info[0]<3:
 	import urlparse
 else:
-	import urllib.request 
+	import urllib.request
+'''
 from . import twitterAuthInfo as tai
 
 PUBLIC_TWEET_COUNT = 200
@@ -18,6 +20,7 @@ def setupAPI():
 # validate screen name of user
 def validateUser(screen_name):
 	baseUrl = 'https://twitter.com/'
+	'''
 	if sys.version_info[0]<3:
 		try:
 			res=urlparse.urlopen(baseUrl+screen_name)
@@ -32,6 +35,7 @@ def validateUser(screen_name):
 			err = 'invalid user screen name' + screen_name
 			print(err)
 			return False
+	'''
 	return True
 
 def getClosestFriendsOfUser(user_info, maxCount = 5):
