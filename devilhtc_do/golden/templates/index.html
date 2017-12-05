@@ -12,10 +12,69 @@
 <style type="text/css">
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans');
 
+body {
+  --twitter-color:#1DA1F2;
+  --twitter-color-darker:#1091E2;
+  margin: 0;
+  padding: 0;
+}
 .wrapper {
 	font-family: 'Noto Sans', sans-serif;
+  
+}
+a {
+  font-style: none;
+  text-decoration: none;
+  color: inherit;
+}
+.header {
+  height: 150px;
+  width: 100%;
+  background-color: var(--twitter-color);
+  color:white;
+  padding: 5px 30px;
 }
 
+.header-form {
+  display: flex;
+  flex-direction: row;
+}
+.header-form div {
+  margin-right:12px;
+}
+
+#rest-button {
+  border-radius:0;
+  //border-style:none;
+  height:20px;
+}
+
+#container {
+  
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  padding: 10px 30px;
+}
+
+.friend-div {
+  border-radius:3px;
+  margin-top: 10px;
+  margin-right: 20px;
+  padding:5px 10px;
+  height: 60px;
+  font-size:16px;
+  color: var(--twitter-color);
+  font-weight: 500;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.20), 0 1px 3px rgba(0,0,0,0.28);
+  transition: box-shadow 300ms ease-in-out;
+}
+.friend-name {
+  font-size:20px;
+}
+.friend-div:hover {
+  box-shadow: 0 5px 12px rgba(0,0,0,0.30), 0 2px 6px rgba(0,0,0,0.32);
+  color:var(--twitter-color-darker);
+}
 </style>
 
 </head>
@@ -23,7 +82,20 @@
 <body>
 <!-- body here -->
 	<div class="wrapper"> 
-		<div class = "header"> header</div>
+		<div class = "header"> 
+      <h2> Find Closest Friends on Twitter </h2>
+      <div class="header-form">
+        <div> user name <br/> <input id='screen_name'> </input> </div>
+     
+        <div> max count <br/> <input id='max_count'> </input> </div>
+
+        <div> 
+          <br/>
+          <button id="rest-button"> submit</button>
+        </div>
+      
+      </div>
+    </div>
 
 		<div id="container"> </div>
 	</div>
@@ -32,7 +104,7 @@
 <script type="text/javascript">
 
 function getParameterByName(name, url) {
-	
+  
     if (!url) { url = window.location.href }
     console.log('Getting query parameter ' + name + ' from [' + url + ']')
 
@@ -44,12 +116,104 @@ function getParameterByName(name, url) {
     if (!results[2]) { return '' }
 
     return decodeURIComponent(results[2].replace(/\+/g, " "))
-
 }
+
+var screen_name_input = document.getElementById('screen_name')
+var max_count_input = document.getElementById('max_count')
+var display_container = document.getElementById('container')
+var rest_button = document.getElementById('rest-button')
+
+var cur_screen_name = getParameterByName('screen_name')
+var cur_max_count = getParameterByName('max_count')
+var containerInnerHTML = ""
+var restResponse = ""
 
 var fetching = false
 var fetched = false
 var hasError = false
+
+if (cur_max_count === null) {
+    cur_max_count = 5
+}
+if (cur_screen_name !== null) {
+   screen_name_input.value = cur_screen_name
+}
+max_count_input.value = cur_max_count
+
+function update_max_count() {
+  cur_max_count = Number.parseInt(max_count_input.value)
+  console.log('cur_max_count changed to ' + cur_max_count)
+  updateDisplayContainer(friendHtml('', cur_max_count))
+}
+
+function update_screen_name() {
+  cur_screen_name = screen_name_input.value
+  console.log('cur_screen_name changed to ' + cur_screen_name)
+}
+
+max_count_input.addEventListener("keyup", update_max_count, false)
+
+screen_name_input.addEventListener("keyup", update_screen_name, false)
+
+rest_button.addEventListener("click", function() {
+  update_max_count()
+  update_screen_name()
+  getFriends(cur_screen_name, cur_max_count)
+
+},false)
+
+function friendHtml(user_info, cur_mc) {
+  var user_screen_name = user_info.screen_name 
+  var user_name = user_info.name
+  var user_href = '/golden/?screen_name='+user_screen_name+'&max_count=' + cur_mc
+  template = '<div class="friend-div"> <a href="'+user_href+'"> <div class="friend-name">'+user_name+'</div>  <div> '+user_screen_name+'</div> </a> </div>'
+  return template
+}
+
+function updateDisplayContainer(content) {
+  display_container.innerHTML = content
+}
+
+function updateDisplayAccordingly() {
+  if (restResponse === "") { return }
+
+  if (hasError === false) {
+    var friendList = JSON.parse(restResponse)
+    var friendDivsList = friendList.map(function(item) {
+      return friendHtml(item, cur_max_count)
+    })
+    var displayContainerInnerHTML = friendDivsList.join('')
+    updateDisplayContainer(displayContainerInnerHTML)
+  } 
+
+}
+function getFriends(sn, mc) {
+  var xhttp = new XMLHttpRequest()
+  url = '/golden/data/?screen_name='+sn+'&max_count=' + mc
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+       // Action to be performed when the document is read;
+       console.log(this.response)
+       if (this.response.startsWith('invalid')) {
+          hasError = true
+          return
+       }
+       hasError = false
+       restResponse = this.response
+       updateDisplayAccordingly()
+    }
+  }
+  xhttp.open("GET", url)
+  xhttp.send()
+}
+
+
+console.log(cur_screen_name)
+console.log(cur_max_count)
+
+if (cur_screen_name !== null) {
+  // trigger event to fetch
+}
 
 </script>
 
