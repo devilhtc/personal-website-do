@@ -23,23 +23,23 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '2&!b8ums8ivwo+#x2_(u$gpn)6tqgt29_@m#93ztr6=90gns&!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'devilhtc.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'devilhtc.com', '127.0.0.1:8000']
 
 
 # Application definition
 
-INSTALLED_APPS = [
-    'golden',
-    'main',
-    'data',
+INSTALLED_APPS = [ 
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'main', 
+    'golden',
+    'data',
 ]
 
 MIDDLEWARE = [

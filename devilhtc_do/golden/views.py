@@ -13,7 +13,7 @@ else:
 import json
 
 class goldenTwitterView(TemplateView):
-	template_name = "index.html"
+	template_name = "golden.html"
 
 def respondData(request):
 	print('query parameter string is ' + request.META['QUERY_STRING'])

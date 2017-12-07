@@ -155,12 +155,13 @@ max_count_input.addEventListener("keyup", update_max_count, false)
 
 screen_name_input.addEventListener("keyup", update_screen_name, false)
 
-rest_button.addEventListener("click", function() {
+function goGetFriends() {
   update_max_count()
   update_screen_name()
   getFriends(cur_screen_name, cur_max_count)
+}
 
-},false)
+rest_button.addEventListener("click", goGetFriends,false)
 
 function friendHtml(user_info, cur_mc) {
   var user_screen_name = user_info.screen_name 
@@ -207,12 +208,12 @@ function getFriends(sn, mc) {
   xhttp.send()
 }
 
-
 console.log(cur_screen_name)
 console.log(cur_max_count)
 
 if (cur_screen_name !== null) {
   // trigger event to fetch
+  goGetFriends()
 }
 
 </script>
