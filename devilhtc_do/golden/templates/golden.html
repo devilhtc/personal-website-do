@@ -20,15 +20,21 @@ body {
 }
 .wrapper {
 	font-family: 'Noto Sans', sans-serif;
-  
 }
+
+input {
+  font-family: 'Noto Sans', sans-serif;
+  font-size:20px;
+}
+
 a {
   font-style: none;
   text-decoration: none;
   color: inherit;
 }
+
 .header {
-  height: 150px;
+  height: 180px;
   width: 100%;
   background-color: var(--twitter-color);
   color:white;
@@ -39,21 +45,28 @@ a {
   display: flex;
   flex-direction: row;
 }
+
 .header-form div {
+  margin: 5px;
+  margin-left: 0px;
   margin-right:12px;
+  font-size:18px;
 }
 
 #rest-button {
   border-radius:0;
   //border-style:none;
-  height:20px;
+  height:35px;
+  font-family: 'Noto Sans', sans-serif;
+}
+
+#friends-container {
+  padding: 10px 30px;
 }
 
 #container {
-  
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  padding: 10px 30px;
 }
 
 .friend-div {
@@ -61,19 +74,28 @@ a {
   margin-top: 10px;
   margin-right: 20px;
   padding:5px 10px;
-  height: 60px;
-  font-size:16px;
+  height: 75px;
+  font-size:14px;
   color: var(--twitter-color);
   font-weight: 500;
   box-shadow: 0 4px 8px rgba(0,0,0,0.20), 0 1px 3px rgba(0,0,0,0.28);
   transition: box-shadow 300ms ease-in-out;
 }
+
 .friend-name {
   font-size:20px;
 }
+
 .friend-div:hover {
   box-shadow: 0 5px 12px rgba(0,0,0,0.30), 0 2px 6px rgba(0,0,0,0.32);
   color:var(--twitter-color-darker);
+}
+
+.info-div {
+  margin-top: 15px;
+  margin-left: 4px;
+  font-size:23px;
+  color: var(--twitter-color);
 }
 </style>
 
@@ -83,7 +105,7 @@ a {
 <!-- body here -->
 	<div class="wrapper"> 
 		<div class = "header"> 
-      <h2> Find Closest Friends on Twitter </h2>
+      <h1> Find Closest Friends on Twitter </h1>
       <div class="header-form">
         <div> user name <br/> <input id='screen_name'> </input> </div>
      
@@ -97,7 +119,7 @@ a {
       </div>
     </div>
 
-		<div id="container"> </div>
+		<div id="friends-container"> </div>
 	</div>
 
 <!-- scripts here -->
@@ -120,13 +142,17 @@ function getParameterByName(name, url) {
 
 var screen_name_input = document.getElementById('screen_name')
 var max_count_input = document.getElementById('max_count')
-var display_container = document.getElementById('container')
+var display_container = document.getElementById('friends-container')
 var rest_button = document.getElementById('rest-button')
 
 var cur_screen_name = getParameterByName('screen_name')
 var cur_max_count = getParameterByName('max_count')
 var containerInnerHTML = ""
 var restResponse = ""
+
+function updateDisplayContainer(content) {
+  display_container.innerHTML = content
+}
 
 var fetching = false
 var fetched = false
@@ -138,12 +164,13 @@ if (cur_max_count === null) {
 if (cur_screen_name !== null) {
    screen_name_input.value = cur_screen_name
 }
+
 max_count_input.value = cur_max_count
 
 function update_max_count() {
   cur_max_count = Number.parseInt(max_count_input.value)
   console.log('cur_max_count changed to ' + cur_max_count)
-  updateDisplayContainer(friendHtml('', cur_max_count))
+  //updateDisplayContainer(friendHtml('', cur_max_count))
 }
 
 function update_screen_name() {
@@ -161,54 +188,83 @@ function goGetFriends() {
   getFriends(cur_screen_name, cur_max_count)
 }
 
-rest_button.addEventListener("click", goGetFriends,false)
-
 function friendHtml(user_info, cur_mc) {
   var user_screen_name = user_info.screen_name 
   var user_name = user_info.name
   var user_href = '/golden/?screen_name='+user_screen_name+'&max_count=' + cur_mc
-  template = '<div class="friend-div"> <a href="'+user_href+'"> <div class="friend-name">'+user_name+'</div>  <div> '+user_screen_name+'</div> </a> </div>'
+  template = '<div class="friend-div"> <a href="'+user_href+'"> <div class="friend-name">'+user_name+'</div>  <div>@'+user_screen_name+'</div> </a> </div>'
   return template
 }
 
-function updateDisplayContainer(content) {
-  display_container.innerHTML = content
+function getFriends(sn, mc) {
+  hasError = false
+  fetching = true
+  fetched = false
+  var xhttp = new XMLHttpRequest()
+  url = '/golden/data/?screen_name='+sn+'&max_count=' + mc
+  console.log('trying to get data by '+url)
+  xhttp.onreadystatechange = function() {
+    // logging
+    console.log('xhttp request state changed')
+    console.log('xhttp request ready state is')
+    console.log(this.readyState)
+    console.log('xhttp request status is')
+    console.log(this.status)
+    console.log('xhttp request response is')
+    console.log(this.response)
+
+    if (this.readyState === 4 && this.status === 200) {
+       // Action to be performed when the document is read;
+       if (this.response.startsWith('invalid')) {
+          hasError = true
+       } else {
+          hasError = false
+       }    
+       fetched = true
+       fetching = false
+       restResponse = this.response
+       updateDisplayAccordingly()
+    } else if (this.status === 500) {
+      // error
+      hasError = true
+      fetched = true
+      fetching = false
+      updateDisplayAccordingly()
+    }
+  }
+  xhttp.open("GET", url)
+  xhttp.send()
+  updateDisplayAccordingly()
 }
 
 function updateDisplayAccordingly() {
-  if (restResponse === "") { return }
-
+  //if (restResponse === "") { return }
+  if (fetching) {
+    var loadingDiv = '<div class="info-div">Loading ...</div>'
+    updateDisplayContainer(loadingDiv)
+    return
+  }
+  if (hasError) {
+    var errorDiv = '<div class="info-div" style="color:orange">Something went wrong! Please make sure the inputs are valid! </div>'
+    updateDisplayContainer(errorDiv)
+    return
+  }
   if (hasError === false) {
     var friendList = JSON.parse(restResponse)
     var friendDivsList = friendList.map(function(item) {
       return friendHtml(item, cur_max_count)
     })
     var displayContainerInnerHTML = friendDivsList.join('')
+    displayContainerInnerHTML = '<div id="container">' + displayContainerInnerHTML + '</div>'
     updateDisplayContainer(displayContainerInnerHTML)
   } 
-
-}
-function getFriends(sn, mc) {
-  var xhttp = new XMLHttpRequest()
-  url = '/golden/data/?screen_name='+sn+'&max_count=' + mc
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-       // Action to be performed when the document is read;
-       console.log(this.response)
-       if (this.response.startsWith('invalid')) {
-          hasError = true
-          return
-       }
-       hasError = false
-       restResponse = this.response
-       updateDisplayAccordingly()
-    }
-  }
-  xhttp.open("GET", url)
-  xhttp.send()
 }
 
+rest_button.addEventListener("click", goGetFriends, false)
+
+console.log('Upon loading, the current screen name is')
 console.log(cur_screen_name)
+console.log('Upon loading, the current max count is')
 console.log(cur_max_count)
 
 if (cur_screen_name !== null) {
