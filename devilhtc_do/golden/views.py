@@ -26,6 +26,6 @@ def respondData(request):
 		res = 'invalid screen name'
 	else:
 		user_info = {'screen_name':screen_name}
-		friends = tu.getClosestFriendsOfUser(user_info, max_count)
+		friends = tu.getClosestFriendsOfUser(user_info, max_count, version = 2)
 		res = json.dumps(friends)
 	return HttpResponse(res)

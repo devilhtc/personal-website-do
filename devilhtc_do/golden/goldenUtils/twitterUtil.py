@@ -1,4 +1,5 @@
 import tweepy
+import math
 '''
 import sys
 if sys.version_info[0]<3:
@@ -9,6 +10,7 @@ else:
 from . import twitterAuthInfo as tai
 
 PUBLIC_TWEET_COUNT = 200
+PUBLIC_TWEET_COUNT_2 = 100
 
 # setup tweepy api to get users and tweets
 def setupAPI():
@@ -38,7 +40,7 @@ def validateUser(screen_name):
 	'''
 	return True
 
-def getClosestFriendsOfUser(user_info, maxCount = 5):
+def getClosestFriendsOfUser(user_info, maxCount = 5, version = 1):
 	api = setupAPI()
 	user = None
 	if 'user_id' in user_info:
@@ -48,7 +50,10 @@ def getClosestFriendsOfUser(user_info, maxCount = 5):
 	else:
 		assert(False, 'invalid user info inputs')
 	curUser = TwitterUser(user.id, api)
-	closestFriends = curUser.getClosestFriends(maxCount)
+	if version == 1:
+		closestFriends = curUser.getClosestFriends(maxCount)
+	else:
+		closestFriends = curUser.getClosestFriends2(maxCount)
 	closestFriendsInfo = [idToUserInfo(friend_id, api) for friend_id in closestFriends]
 	return closestFriendsInfo
 
@@ -84,6 +89,16 @@ def getMentionCounts(user_id, tweets):
 	for tweet in tweets:
 		if isMentioned(user_id, tweet):
 			total += 1
+	return float(total)
+
+# compare two set of friends
+# friends1 is a set
+# friends2 is a list
+def numCommonFriends(friends1, friends2):
+	total = 0
+	for f in friends2:
+		if f in friends1:
+			total += 1
 	return total
 
 class TwitterUser(object):
@@ -102,6 +117,51 @@ class TwitterUser(object):
 	def getMyTweets(self, count = PUBLIC_TWEET_COUNT):
 		myTweets = self.api.user_timeline(self.user_id, count = count)
 		return myTweets
+
+	def getMyTweets2(self, count = PUBLIC_TWEET_COUNT_2):
+		return self.getMyTweets(count = count)
+
+	# second version of finding closest friends
+	def getClosestFriends2(self, maxCount = 5):
+		friendsIds = self.getFriends()
+		myTweets = self.getMyTweets2()
+
+		# reply and mention constitute of part of scores
+		myReplyCounts = [
+			getReplyCounts(ele, myTweets) for ele in friendsIds
+		]
+		myMentionCounts = [
+			getMentionCounts(ele, myTweets) for ele in friendsIds
+		]
+		scores = [
+			math.pow(float(myReplyCounts[i] + myMentionCounts[i]), 0.5) for i in range(len(friendsIds))
+		]
+		baseFriends = [
+			(i, friendsIds[i]) for i in range(len(friendsIds)) if scores[i] > 0.0
+		]
+		print('base friends to look at is', baseFriends)
+		baseFriendsFriends = [
+			(i, self.api.friends_ids(friendId)) for i, friendId in baseFriends
+		]
+		myFriends = set(friendsIds)
+
+		baseFriendsCommonFriends = [
+			(i, numCommonFriends(myFriends, friendsFriends)) for i, friendsFriends in baseFriendsFriends
+		]
+
+		# sum them up and sort
+		for i, additionalScore in baseFriendsCommonFriends:
+			scores[i] += additionalScore
+		
+		zipped = [
+			(-scores[i], friendsIds[i]) for i in range(len(friendsIds))
+		]
+		zipped = sorted(zipped)
+		print('their scores are', scores)
+		# find friend ids and return the ids only
+		closestFriendsAndScores = zipped[:maxCount]
+		closestFriends = [ele[1] for ele in closestFriendsAndScores]
+		return closestFriends
 
 	def getClosestFriends(self, maxCount = 5):
 		friendsIds = self.getFriends()
