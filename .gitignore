@@ -8,4 +8,4 @@ devilhtc_do/static/bundle.js
 devilhtc_do/staticfiles/
 nohup.out
 devilhtc_do/nohup.out
-devilhtc_do/golden/utils/twitterAuthInfo.py
+devilhtc_do/golden/goldenUtils/twitterAuthInfo.py
