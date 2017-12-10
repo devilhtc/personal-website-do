@@ -139,9 +139,17 @@ class TwitterUser(object):
 		baseFriends = [
 			(i, friendsIds[i]) for i in range(len(friendsIds)) if scores[i] > 0.0
 		]
-		print('base friends to look at is', baseFriends)
+		baseFriendsScores = [
+			(-scores[i], i, friendId) for i, friendId in baseFriends
+		]
+		baseFriendsScores = sorted(baseFriendsScores)
+		top10baseFriendsScores = baseFriendsScores[:10]
+		baseFriends2 = [
+			(i, friendId) for _, i, friendId in top10baseFriendsScores
+		]
+		print('base friends to look at is', baseFriends2)
 		baseFriendsFriends = [
-			(i, self.api.friends_ids(friendId)) for i, friendId in baseFriends
+			(i, self.api.friends_ids(friendId)) for i, friendId in baseFriends2
 		]
 		myFriends = set(friendsIds)
 
@@ -152,7 +160,7 @@ class TwitterUser(object):
 		# sum them up and sort
 		for i, additionalScore in baseFriendsCommonFriends:
 			scores[i] += additionalScore
-		
+
 		zipped = [
 			(-scores[i], friendsIds[i]) for i in range(len(friendsIds))
 		]
