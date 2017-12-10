@@ -31,15 +31,15 @@ ALLOWED_HOSTS = ['127.0.0.1', 'devilhtc.com', '127.0.0.1:8000']
 # Application definition
 
 INSTALLED_APPS = [ 
+    'main', 
+    'golden',
+    'data',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'main', 
-    'golden',
-    'data',
+    'django.contrib.staticfiles',  
 ]
 
 MIDDLEWARE = [
