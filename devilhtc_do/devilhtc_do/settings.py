@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'devilhtc.com', '127.0.0.1:8000']
 INSTALLED_APPS = [ 
     'main', 
     'golden',
+    'playgrounds',
     'data',
     'django.contrib.admin',
     'django.contrib.auth',

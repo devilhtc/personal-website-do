@@ -1,0 +1,55 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Playgrounds Options</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+<!-- vue cdn script <script src="https://unpkg.com/vue"></script> -->
+  
+<!-- styles here -->
+<style type="text/css">
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans');
+body {
+	font-family: 'Noto Sans', sans-serif;
+}
+
+</style>
+
+</head>
+
+<body>
+<!-- body here -->
+	<div class="wrapper"> 
+		<a href = "/playgrounds/tetris"> tetris</a>
+	</div>
+<!-- scripts here -->
+<script type="text/javascript">
+
+function getParameterByName(name, url) {
+	
+    if (!url) { url = window.location.href }
+    console.log('Getting query parameter ' + name + ' from [' + url + ']')
+
+    name = name.replace(/[\[\]]/g, "\\$&")
+    var regex = new RegExp( "[?&]" + name + "(=([^&#]*)|&|#|$)" )
+    results = regex.exec(url)
+
+    if (!results) { return null }
+    if (!results[2]) { return '' }
+
+    return decodeURIComponent(results[2].replace(/\+/g, " "))
+}
+
+var fetching = false
+var fetched = false
+var hasError = false
+
+
+
+</script>
+
+</body>
+</html>
