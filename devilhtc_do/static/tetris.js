@@ -23,19 +23,15 @@ var LightenDarkenColor = function(col,amt) {
     }
 
     var num = parseInt(col,16)
-
     var r = (num >> 16) + amt
-
     if ( r > 255 ) { r = 255 }
     else if (r < 0)  { r = 0 }
 
     var b = ((num >> 8) & 0x00FF) + amt;
-
     if ( b > 255 ) { b = 255 }
     else if (b < 0) { b = 0 }
 
     var g = (num & 0x0000FF) + amt
-
     if ( g > 255 ) { g = 255 }
     else if ( g < 0 ) { g = 0 }
     
@@ -44,21 +40,25 @@ var LightenDarkenColor = function(col,amt) {
 
 // setting up tests
 var allTests = []
+var conductTests = true
+
+// ta 0
 var exampleTest = function() { console.log('testing goes through') }
 allTests.push(exampleTest)
+// ta 0 end
 
 // the game
 
 // game constants
 
-var blockColors = [
+var pieceColors = [
     "#ff0000",
     "#00ff00",
     "#0000ff",
     "#888888"
 ]
 
-var numColors = blockColors.length
+var numColors = pieceColors.length
 
 var pieceShapes = [
     ".", "L1", "L2", "Z1", "Z2", "T", "I"
@@ -119,7 +119,7 @@ var INNER_BOARD_WIDTH = 10
 var INNER_BOARD_HEIGHT = 24
 var HIDDEN_BOARD_HEIGHT = 4
 var MARGIN_SIZE = 4
-var M = MARGIN_SIZE // short-hand 
+var M = MARGIN_SIZE // short-hand M for MARGIN_SIZE
 
 var BOARD_DISPLAY_WIDTH = BLOCK_SIZE * INNER_BOARD_WIDTH
 var BOARD_DISPLAY_HEIGHT = BLOCK_SIZE * INNER_BOARD_HEIGHT
@@ -130,29 +130,40 @@ var BOARD_HEIGHT = INNER_BOARD_HEIGHT + 2 * MARGIN_SIZE
 // game utility functions
 
 // generate a row with inner fillings being val
-var generateInitialRow = function(w, val) {
-    if (!val) { val = 0 }
+var generateInitialRow = function(w, boundaryVal) {
+    if (boundaryVal === undefined) { val = 1 }
     var out = []
     var i
-    for (i = 0; i < M; i++) { out.push(1) }
-    for (i = 0; i < w; i++) { out.push(val) }
-    for (i = 0; i < M; i++) { out.push(1) }
+    for (i = 0; i < M; i++) { out.push(boundaryVal) }
+    for (i = 0; i < w; i++) { out.push(0) }
+    for (i = 0; i < M; i++) { out.push(boundaryVal) }
+    return out
+}
+
+// generate a row with inner fillings being val
+var generateFloorCeiling = function(w, boundaryVal) {
+    if (boundaryVal === undefined) { boundaryVal = 1 }
+    var out = []
+    var i
+    for (i = 0; i < M; i++) { out.push(boundaryVal) }
+    for (i = 0; i < w; i++) { out.push(boundaryVal) }
+    for (i = 0; i < M; i++) { out.push(boundaryVal) }
     return out
 }
 
 // generate initial board (with margins)
-var generateIntialBoard = function(w, h, val) {
+var generateIntialBoard = function(w, h, boundaryVal) {
     var out = []
-    for (var i = 0; i < M; i++) { out.push(generateInitialRow(w, val)) }
-    for (var i = 0; i < h; i++) { out.push(generateInitialRow(w)) }
-    for (var i = 0; i < M; i++) { out.push(generateInitialRow(w, val)) }
+    for (var i = 0; i < M; i++) { out.push(generateFloorCeiling(w, boundaryVal)) }
+    for (var i = 0; i < h; i++) { out.push(generateInitialRow(w, boundaryVal)) }
+    for (var i = 0; i < M; i++) { out.push(generateFloorCeiling(w, boundaryVal)) }
     return out
 }
 
 // create empty board based on global variable
-var createEmptyBoard = function(val) {
-    if (!val) { val = 1}
-    return generateIntialBoard(INNER_BOARD_WIDTH, INNER_BOARD_HEIGHT + HIDDEN_BOARD_HEIGHT, val)
+var createEmptyBoard = function(boundaryVal) {
+    if (boundaryVal === undefined) { boundaryVal = 1 }
+    return generateIntialBoard(INNER_BOARD_WIDTH, INNER_BOARD_HEIGHT + HIDDEN_BOARD_HEIGHT, boundaryVal)
 }
 
 // create empty board for a piece
@@ -202,7 +213,6 @@ var logCarved = function(board) {
 }
 
 // ta 1
-
 var testCarving = function() {
     var curBoard = createEmptyBoard()
     console.log('full')
@@ -217,7 +227,6 @@ var testCarving = function() {
     logBoard(boardForDisplay)
 }
 allTests.push(testCarving)
-
 // ta 1 end
 
 // process merged board (delete rows that are cancelled)
@@ -231,7 +240,6 @@ var processMergedBoard = function(board) {
         }
         cancelled.push(isCancelled)
     }
-    
     var newBoard = createEmptyBoard(board)
     var k = M
     for (i = M; i < board.length - M; i++) {
@@ -241,7 +249,6 @@ var processMergedBoard = function(board) {
 }
 
 // ta 2
-
 var testProcess = function() {
     var curBoard = createEmptyBoard()
     var i, j
@@ -257,10 +264,9 @@ var testProcess = function() {
     logCarved(processedBoard)
 }
 allTests.push(testProcess)
-
 // ta 2 end
 
-var blockOverlap = function(gameBoard, pieceBoard) {
+var haveBlockOverlap = function(gameBoard, pieceBoard) {
     for (var i = M; i < gameBoard.length - M; i++) {
         for (var j = M; j < gameBoard[0].length - M; j++) {
             if (gameBoard[i][j] * pieceBoard[i][j] !== 0) return true;
@@ -278,85 +284,161 @@ var testOverlap = function() {
     curBoard[7][7] = 1
     var pieceBoard = createEmptyBoard()
     i = 7
-    for (j = 8; j < pieceBoard[0].length; j++) { pieceBoard[i][j] = 1 }
+    for (j = 7; j < pieceBoard[0].length; j++) { pieceBoard[i][j] = 1 }
     console.log('board 1')
     logCarved(curBoard)
     
     console.log('board 2')
     logCarved(pieceBoard)
     
-    if ( blockOverlap(curBoard, pieceBoard) ) {
+    if ( haveBlockOverlap(curBoard, pieceBoard) ) {
         console.log('they overlap')
     } else {
         console.log('they don\'t overlap')
     }
 }
-
 allTests.push(testOverlap)
+// ta 3 end
+
+// game mechanism
+
+// piece object
+var Piece = function(shapeOption, colorOption) {
+    
+    // shape
+    this.shapeOption = shapeOption
+    this.shape = pieceShapes[shapeOption - 1]
+    this.boardPositions = pieceBoardPositions[shapeOption - 1]
+    
+    // color
+    this.colorOption = colorOption 
+    this.color = pieceColors[colorOption - 1]
+    
+    // position and orientation
+    this.pivotY = M + INNER_BOARD_HEIGHT 
+    this.pivotX = M + INNER_BOARD_WIDTH / 2 
+    this.orient = 0
+
+    // generate piece on a board with border 0
+    this.getPieceBoard = function() {
+        var pieceBoard = createEmptyPieceBoard()
+        var boardPositions = this.boardPositions[this.orient]
+        //console.log(boardPositions)
+        var i
+        for (var i = 0; i < boardPositions.length; i++) {
+            pieceBoard[this.pivotY + boardPositions[i][0]][this.pivotX + boardPositions[i][1]] = this.colorOption
+        }
+        return pieceBoard
+    }
+    
+    // get if the current config is valid on board
+    this.isValid = function(gameBoard) {
+        var pieceBoard = this.getPieceBoard()
+        var overlapped = haveBlockOverlap(gameBoard, pieceBoard)
+        return !overlapped
+    }
+    
+    this.rotate = function() {
+        this.orient = (this.orient + 1) % numOrientation
+    }
+    
+    this.derotate = function() {
+        this.orient = (this.orient - 1 + numOrientation) % numOrientation
+    }
+    
+    this.moveDownOnBoard = function(gameBoard) {
+        this.pivotY -= 1
+        if ( !this.isValid(gameBoard) ) { this.pivotY += 1 }
+    }
+    
+    this.moveLeftOnBoard = function(gameBoard) {
+        this.pivotX -= 1
+        if ( !this.isValid(gameBoard) ) { this.pivotX += 1 }
+    }
+    
+    this.moveRightOnBoard = function(gameBoard) {
+        this.pivotX += 1
+        if ( !this.isValid(gameBoard) ) { this.pivotX -= 1 }
+    }
+    
+    this.rotateOnBoard = function(gameBoard) {
+        this.rotate()
+        if ( !this.isValid(gameBoard)) { this.derotate() }
+    }
+    
+    this.hitBottom = function(gameBoard) {
+        var prevY = this.pivotY
+        this.moveDownOnBoard(gameBoard)
+        var curY = this.pivotY
+        return prevY === curY
+    }
+    
+}
+
+// ta 4
+var testPiece1 = function() {
+    var shapeOption, colorOption, curPieceBoard
+    
+    shapeOption = 2
+    colorOption = 2
+    
+    var newPiece = new Piece(shapeOption, colorOption)
+    
+    curPieceBoard = newPiece.getPieceBoard()
+    console.log('piece board before rotating')
+    logBoard(curPieceBoard)
+    
+    newPiece.rotate()
+    curPieceBoard = newPiece.getPieceBoard()
+    console.log('piece board after rotating')
+    logBoard(curPieceBoard)
+}
+allTests.push(testPiece1)
+// ta 4 end
+
+// game object
 
 
 
 /*
 
+var TetrisGame = function() {
+    // dimensions
+    this.boardWidth = BOARD_WIDTH
+    this.boardHeight = BOARD_HEIGHT
+    this.hiddenHeight = HIDDEN_HEIGHT
+    this.printDimensions = printDimensions.bind(this)
+    
+    // boolean states
+    this.gameStarted = false
+    this.gameOver = false
+    
+    // game states
+    this.score = 0
+    this.gameBoard = createEmptyBoard()
+    this.curPiece = null
+    this.pieceBoard = createEmptyBoard()
+    
+    this.generateNewPiece = function(shapeOption, colorOption) {
+        this.curPiece = new Piece(shapeOption, colorOption)
+    }
+    
+    this.exportedState = {
+        gameBoard: this.gameBoard,
+        pieceBoard: this.pieceBoard,
+        score: this.score
+    }
+    
+    this.updateExportedState = function() {
+        this.exportedState.gameBoard = this.gameBoard
+        this.exportedState.pieceBoard = this.pieceBoard
+        this.exportedState.score = this.score
+    }
+} 
 
-// game mechanism
+tetrisGame = new TetrisGame()
 
-// game piece
-var Piece = function(shapeOption, colorOption) {
-    this.shapeOption = shapeOption
-    this.shape = pieceShapes[shapeOption]
-    this.colorOption = colorOption
-    this.x = BOARD_WIDTH/2 - 1,
-    this.y = BOARD_HEIGHT
-    
-    this.getPieceBoard = function() {
-        var pieceBoard = createEmptyBoard()
-        // vary pieceBoard based on shape, color and location
-        pieceBoard[x][y] = colorOption
-        return pieceBoard
-    }
-    
-    this.isInBoard = function() {
-        return true
-    }
-    
-    this.hitBottom = function(gameBoard) {
-        
-    }
-    
-    this.isValidOperation = function(gameBoard) {
-        return true
-    }
-    
-    this.sink = function(gameBoard) {
-        this.y -= 1
-        if (! this.isValidOperation(gameBoard) ) {
-            this.y += 1
-        }
-    }
-    
-    this.moveLeft = function(gameBoard) {
-        this.x -= 1
-        if (! this.isValidOperation(gameBoard) ) {
-            this.x += 1
-        }
-    }
-    
-    this.moveRight = function(gameBoard) {
-        this.x += 1
-        if (! this.isValidOperation(gameBoard) ) {
-            this.x -= 1
-        }
-    }
-}
-
-
-// game progression
-
-
-var fetching = false
-var fetched = false
-var hasError = false
+tetrisGame.printDimensions()
 
 Vue.component('todo-item', {
     template: `<li>This is a todo</li>`
@@ -430,53 +512,19 @@ var myApp = new Vue({
 }) 
 
 
-var TetrisGame = function() {
-    // dimensions
-    this.boardWidth = BOARD_WIDTH
-    this.boardHeight = BOARD_HEIGHT
-    this.hiddenHeight = HIDDEN_HEIGHT
-    this.printDimensions = printDimensions.bind(this)
-    
-    // boolean states
-    this.gameStarted = false
-    this.gameOver = false
-    
-    // game states
-    this.score = 0
-    this.gameBoard = createEmptyBoard()
-    this.curPiece = null
-    this.pieceBoard = createEmptyBoard()
-    
-    this.generateNewPiece = function(shapeOption, colorOption) {
-        this.curPiece = new Piece(shapeOption, colorOption)
-    }
-    
-    this.exportedState = {
-        gameBoard: this.gameBoard,
-        pieceBoard: this.pieceBoard,
-        score: this.score
-    }
-    
-    this.updateExportedState = function() {
-        this.exportedState.gameBoard = this.gameBoard
-        this.exportedState.pieceBoard = this.pieceBoard
-        this.exportedState.score = this.score
-    }
-} 
 
-tetrisGame = new TetrisGame()
-
-tetrisGame.printDimensions()
 
 */
 
 // conduct tests
-var testIndex
-for (testIndex = 0; testIndex < allTests.length; testIndex++) {
-    console.log(" ")
-    console.log("********************************")
-    console.log(testIndex + '_th test')
-    allTests[testIndex]() 
+if (conductTests) {
+    var testIndex
+    for (testIndex = 0; testIndex < allTests.length; testIndex++) {
+        console.log(" ")
+        console.log("********************************")
+        console.log(testIndex + '_th test')
+        allTests[testIndex]() 
+    }
 }
 
 console.log('Initial js file ran properly')
