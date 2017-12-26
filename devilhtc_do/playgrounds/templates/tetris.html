@@ -11,19 +11,30 @@
 <!-- styles here -->
 <style type="text/css">
     @import url('https://fonts.googleapis.com/css?family=Noto+Sans');
-
+    
+    
     body {
         font-family: 'Noto Sans', sans-serif;
     }
-
-    .jane {
-        animation-name: blink;
-        animation-duration: 200ms;
-        animation-iteration-count: infinite;
-        animation-direction: alternate-reverse;
+    
+    .author {
+        font-size: 25px;
     }
     
-    @keyframes blink {
+    .header {
+        font-size: 40px;
+        text-align: center;
+        margin-top: 50px;
+    }
+    
+    .jane {
+        animation-name: love;
+        animation-duration: 200ms;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+    }
+    
+    @keyframes love {
         from {
             color: coral;
         }
@@ -38,7 +49,15 @@
 <body>
 <!-- body here -->
 	<div class="wrapper"> 
-		<div class = "header"> tetris game</div>
+		<div class="header"> 
+            <span id="game-title">
+                Tetris game
+            </span>
+            <br />
+            <span class="author">
+                Author: Kevin He
+            </span>
+        </div>
 
 		<div id="app"> </div>
 	</div>

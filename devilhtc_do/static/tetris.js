@@ -58,7 +58,7 @@ var rand1ToN = function(n) {
 
 // setting up tests
 var allTests = []
-var conductTests = true
+var conductTests = false
 
 // ta = testing area
 
@@ -147,15 +147,18 @@ var BLOCK_SIZE = 30
 var TIME_INTERVAL = 1000
 
 var INNER_BOARD_WIDTH = 10
-var INNER_BOARD_HEIGHT = 11
+var INNER_BOARD_HEIGHT = 20
 var HIDDEN_BOARD_HEIGHT = 4
+var NEXT_PIECE_DISPLAY_SIZE = 4
+
 var MARGIN_SIZE = 4
 var M = MARGIN_SIZE // short-hand M for MARGIN_SIZE
 
 var BLOCK_SIZE_WITH_BOUNDARY = BLOCK_SIZE + 2 * 5
 var BOARD_DISPLAY_WIDTH = BLOCK_SIZE_WITH_BOUNDARY * INNER_BOARD_WIDTH
 var BOARD_DISPLAY_HEIGHT = BLOCK_SIZE_WITH_BOUNDARY * INNER_BOARD_HEIGHT
-
+var NEXT_PIECE_DISPLAY_WIDTH = BLOCK_SIZE_WITH_BOUNDARY * (2 * NEXT_PIECE_DISPLAY_SIZE - 1)
+var NEXT_PIECE_DISPLAY_HEIGHT = BLOCK_SIZE_WITH_BOUNDARY * NEXT_PIECE_DISPLAY_SIZE
 
 var BOARD_WIDTH = INNER_BOARD_WIDTH + 2 * MARGIN_SIZE
 var BOARD_HEIGHT = INNER_BOARD_HEIGHT + 2 * MARGIN_SIZE
@@ -521,6 +524,7 @@ var TetrisGame = function() {
         colorOption = rand1ToN(numColors)
         return new Piece(shapeOption, colorOption)
     }
+    
     this.getNewPiece = () => {
         if (this.nextPiece === null) {
             this.curPiece = this.getAPiece()
@@ -538,7 +542,9 @@ var TetrisGame = function() {
         displayBoard: getBoardForDisplay(this.gameBoard, this.pieceBoard),
         gameScore: this.gameScore,
         gameStarted: this.gameStarted,
-        gameOver: this.gameOver
+        gameOver: this.gameOver,
+        nextPieceShape: (this.nextPiece === null? [] : this.nextPiece.boardPositions[0]),
+        nextPieceColor: (this.nextPiece === null? 1 : this.nextPiece.colorOption)
     }
     
     this.updateExportedState = () => {
@@ -549,8 +555,8 @@ var TetrisGame = function() {
         this.exportedState.gameStarted = this.gameStarted
         this.exportedState.gameOver = this.gameOver
         this.exportedState.displayBoard = getBoardForDisplay(this.gameBoard, this.pieceBoard)
-        console.log('game board updated to')
-        logBoard(combineBoardAndPiece( this.gameBoard, this.pieceBoard) )
+        this.exportedState.nextPieceShape = (this.nextPiece === null? [] : this.nextPiece.boardPositions[0])
+        this.exportedState.nextPieceColor = (this.nextPiece === null? 1 : this.nextPiece.colorOption)
     }
     
     this.declareGameOver = () => {
@@ -560,7 +566,6 @@ var TetrisGame = function() {
     }
     
     this.gameProceed = () => { 
-        console.log(this.curPiece)
         if ( this.curPiece.hitBottom(this.gameBoard) ) {
             console.log('hit the bottom!')
             var pieceBoard = this.curPiece.getPieceBoard()
@@ -585,6 +590,7 @@ var TetrisGame = function() {
         this.gameStarted = true
         this.gameScore = 0
         this.getNewPiece()
+        if (this.gameInterval !== null) { clearInterval(this.gameInterval) }
         this.gameInterval = setInterval(this.gameProceed, TIME_INTERVAL)
         this.updateExportedState()
     }
@@ -608,6 +614,7 @@ var TetrisGame = function() {
         while (!this.curPiece.hitBottom(this.gameBoard)) {
             this.curPiece.moveDownOnBoard(this.gameBoard)
         }
+        this.gameProceed()
         this.updateExportedState()
     }
 }
@@ -624,7 +631,6 @@ var testGame1 = function() {
 
 var tetris = new TetrisGame()
 
-
 // add control to the game by adding event listener to the window
 window.addEventListener("keydown", function() {
     if (event.defaultPrevented) {
@@ -640,16 +646,18 @@ window.addEventListener("keydown", function() {
                 tetris.movePieceRight()
             } else if (event.key === 'ArrowDown') {
                 tetris.dropPiece()
-                tetris.gameProceed()
             } else if (event.key === ' ') {
                 tetris.rotatePiece()
-            } 
+            } else if (event.key === 'r') {
+                tetris.startGame()
+            }
         } 
     } else {
         if (event.key === 'r' || event.key === 's') {
             tetris.startGame()
         }
     }
+    handled = true
     if (handled) {
         event.preventDefault()
     }
@@ -688,7 +696,7 @@ Vue.component('tetris-block', {
     } 
 })
 
-
+// vue components and rendering
 Vue.component('tetris-row', {
     template: `<div v-bind:style = "{
                     display: 'flex',
@@ -705,25 +713,107 @@ Vue.component('tetris-row', {
     }
 })
 
-
-var state = {
-    counter: 0
-}
-
-Vue.component('game-board', {
-    template: ` <div v-bind:style= "{
-                    width: `+ BOARD_DISPLAY_WIDTH +` + 'px',
-                    height: ` +BOARD_DISPLAY_HEIGHT+` + 'px',
-                    border: '1px solid black',
+Vue.component('piece-display', {
+    template:  `<div v-bind:style="{
+                    width: `+ NEXT_PIECE_DISPLAY_WIDTH +` + 'px',
+                    height: ` +NEXT_PIECE_DISPLAY_HEIGHT+` + 'px',
+                    border: '0px solid black',
                     display: 'flex',
-                    flexDirection: 'column'
+                    flexDirection: 'column',
                 }">
-                    <div v-for="row in tetrisState.displayBoard">
+                    <div v-for="row in pieceDisplayBoard">
                         <tetris-row v-bind:blockRow="row"/>
                     </div>
-                    score {{tetrisState.gameScore}}
-                    <div v-show="tetrisState.gameOver"> GAME OVER</div>
                 </div>`,
+    props: {
+        boardPositions: {
+            type: Array,
+            default: []
+        },
+        pieceColorOption: {
+            type: Number,
+            default: 1
+        }
+    },
+    data: () => {
+        return {}
+    },
+    computed: {
+        pieceDisplayBoard: function() {
+            var out = []
+            var row
+            var i, j
+            for (i = 0; i < NEXT_PIECE_DISPLAY_SIZE; i++) {
+                row = []
+                for (j = 0; j < 2 * NEXT_PIECE_DISPLAY_SIZE - 1; j++) {
+                    row.push(0)
+                }
+                out.push(row)
+            }
+            var pivotY = 0
+            var pivotX = NEXT_PIECE_DISPLAY_SIZE - 1
+            for (i = 0; i < this.boardPositions.length; i++) {
+                out[pivotY + this.boardPositions[i][0]][pivotX + this.boardPositions[i][1]] = this.pieceColorOption 
+            }
+            return flipBoard(out)
+        }
+    }
+})
+
+Vue.component('instructions', {
+    template:   `<div> 
+                    <br />
+                    <span style= "font-size:30px;" >Instructions </span>
+                    <br />
+                    <br />
+                    1. Press S to start game, R to restart game
+                    <br />
+                    <br />
+                    2. Use arrow keys and space as control (LEFT, RIGHT to move left and right, DOWN to drop and SPACE to rotate)
+                    <br />
+                </div>`
+})
+
+Vue.component('game-board', {
+    template: `<div v-bind:style="{ 
+                    display: 'flex', 
+                    flexDirection: 'row', 
+                    marginLeft: 'auto',
+                    marginRight: 'auto'
+                }">
+                    <div v-bind:style="{
+                        width: `+ BOARD_DISPLAY_WIDTH +` + 'px',
+                        height: ` +BOARD_DISPLAY_HEIGHT+` + 'px',
+                        border: '1px solid black',
+                        display: 'flex',
+                        flexDirection: 'column',
+                    }">
+                        <div v-for="row in tetrisState.displayBoard">
+                            <tetris-row v-bind:blockRow="row"/>
+                        </div>
+                        
+                        <div v-bind:style="{opacity: tetrisState.gameOver ? 1:0}"> GAME OVER </div>
+                    </div>
+                    <div v-bind:style="{
+                        marginLeft: '30px',
+                        fontSize: '22px',
+                        width: '350px'
+                    }">
+                        Score {{tetrisState.gameScore}}
+                        <br />
+                        <br />
+                        <div v-bind:style="{opacity: tetrisState.gameOver ? 1:0, color: 'red'}"> GAME OVER </div>
+                        <br />
+                        Next Piece
+                        
+                        <br />
+                        <piece-display v-bind:boardPositions="tetrisState.nextPieceShape" v-bind:pieceColorOption="tetrisState.nextPieceColor"
+                        />
+                        <br />
+                        <instructions />
+                    </div>
+               </div>`,
+    
     data: function() {
         return {
             tetrisState: tetris.exportedState
@@ -733,12 +823,15 @@ Vue.component('game-board', {
 
     },
     created: function() {
-       
     },
 })
 
 var myApp = new Vue({
-      template:`<div> 
+      template:`<div v-bind:style = "{
+                    margin: 'auto',
+                    marginTop: '90px',
+                    marginLeft: '300px'
+                }"> 
                     <game-board />
                 </div>`,
       el: '#app',
