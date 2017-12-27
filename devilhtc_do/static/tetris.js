@@ -24,7 +24,9 @@ var color2hex = function(val) {
     return out
 }
 
-// modify color by amt
+// modify color by amt on rbg
+// previous implementation - operate on hexval
+/*
 var LightenDarkenColor = function(col, amt) {
     if (amt === 0) { return col } 
     var usePound = false
@@ -33,13 +35,13 @@ var LightenDarkenColor = function(col, amt) {
         usePound = true
     }
 
-    var num = parseInt(col,16)
+    var num = parseInt(col, 16)
     
     var r = (num >> 16) + amt
     if ( r > 255 ) { r = 255 }
     else if (r < 0)  { r = 0 }
 
-    var b = ((num >> 8) & 0x00FF) + amt;
+    var b = ((num >> 8) & 0x00FF) + amt
     if ( b > 255 ) { b = 255 }
     else if (b < 0) { b = 0 }
 
@@ -50,6 +52,44 @@ var LightenDarkenColor = function(col, amt) {
     var out = (usePound ? "#" : "") + color2hex(r) + color2hex(b) + color2hex(g)
     return out
 }
+*/
+
+var hex2array = function(col) {
+    if ( col[0] == "#" ) {
+        col = col.slice(1) 
+    }
+    var num = parseInt(col, 16) 
+    var r = (num >> 16) 
+    var b = ((num >> 8) & 0x00FF) 
+    var g = (num & 0x0000FF)
+    //console.log(col)
+    //console.log([r, b, g])
+    return [r, b, g]
+}
+
+var rbgarray2rgb = function(col) {
+    var r, b, g
+    r = col[0]
+    b = col[1]
+    g = col[2]
+    return "rgb(" + [r, g, b].join(", ") + ")"
+}
+
+var clampColor = function(val) {
+    return Math.min(Math.max(0, val), 255)
+}
+
+// new implementation - col is array of length 3 of format [r, b, g]
+var LightenDarkenColor = function(col, amt) {
+    var r, b, g
+    r = clampColor(col[0] + amt)
+    b = clampColor(col[1] + amt)
+    g = clampColor(col[2] + amt)
+    var out = [r, b, g]
+    //console.log(out)
+    return out
+}
+
 
 // generate a random number between 1 and n
 var rand1ToN = function(n) {
@@ -76,12 +116,13 @@ var wildColors = [
     "#7899ff",
     "#993325",
     "#caca00",
-    "#cc20ca",
+    "#aaa930",
+    "#cc40ca",
     "#410140",
     "#00ef94",
     "#ffe3a9",
     "#ee8855",
-    "#fafafa",
+    "#0afaf0",
     "#90ee73",
     "#aa90ee",
     "#ccdd90"
@@ -257,16 +298,21 @@ if (wildMode) {
     pieceBoardPositions = mergeArrays(pieceBoardPositions, wildBoardPositions)
 }
 
+// change format
+pieceColors = pieceColors.map(hex2array) 
+
 var numColors = pieceColors.length - 1
 var numShapes = pieceShapes.length - 1
-var numOrientation = 4
 
-var DEFAULT_SHAPE_OPTION = 1
-var DEFAULT_COLOR_OPTION = 4
 
 var BOUDARY_VALUE = pieceColors.length
+var numOrientation = 4
+var DEFAULT_SHAPE_OPTION = 1
+var DEFAULT_COLOR_OPTION = 4
 var SCORE_PER_ROW = 100
-var BLOCK_SIZE = wildMode ? 25 : 31
+var BLOCK_SIZE = wildMode ? 20 : 23
+var BORDER_WIDTH = 1
+var RIGHT_PANEL_FONT_SIZE = 12
 var TIME_INTERVAL = 1000
 var FASTER_INTERVAL = 50
 
@@ -278,7 +324,7 @@ var NEXT_PIECE_DISPLAY_SIZE = 4
 var MARGIN_SIZE = wildMode ? 3 : 4
 var M = MARGIN_SIZE // short-hand M for MARGIN_SIZE
 
-var BLOCK_SIZE_WITH_BOUNDARY = BLOCK_SIZE + 2 * 5
+var BLOCK_SIZE_WITH_BOUNDARY = BLOCK_SIZE + 2 * BORDER_WIDTH
 var BOARD_DISPLAY_WIDTH = BLOCK_SIZE_WITH_BOUNDARY * INNER_BOARD_WIDTH
 var BOARD_DISPLAY_HEIGHT = BLOCK_SIZE_WITH_BOUNDARY * INNER_BOARD_HEIGHT
 var NEXT_PIECE_DISPLAY_WIDTH = BLOCK_SIZE_WITH_BOUNDARY * (2 * NEXT_PIECE_DISPLAY_SIZE - 1)
@@ -847,7 +893,7 @@ Vue.component('tetris-block', {
                 backgroundColor: tileColor, 
                 width: blockSize + 'px', 
                 height: blockSize + 'px',
-                border: '5px outset '+blockColor,
+                border: borderWidth + 'px solid ' + blockColor,
                 opacity: block > 0 ? 1 : 0
               }">
              </div>`,
@@ -861,12 +907,17 @@ Vue.component('tetris-block', {
             default: BLOCK_SIZE
         }
     },
+    data: () => {
+        return {
+            borderWidth: BORDER_WIDTH
+        }
+    },
     computed: {
         tileColor: function() {
-            return LightenDarkenColor(pieceColors[Math.max(this.block - 1, 0)], -30)
+            return rbgarray2rgb(LightenDarkenColor(pieceColors[Math.max(this.block - 1, 0)], 15))
         },
         blockColor: function() {
-            return pieceColors[Math.max(this.block - 1, 0)]
+            return rbgarray2rgb(pieceColors[Math.max(this.block - 1, 0)])
         }
     } 
 })
@@ -934,18 +985,20 @@ Vue.component('piece-display', {
         }
     }
 })
+Vue.component('h-margin', {
+    template: `<div style="height: 1px;"> </div>`
+})
 
 Vue.component('instructions', {
     template:   `<div> 
                         <br />
                     <span style= "font-size:30px;" >Instructions </span>
                         <br />
-                        <br />
                     1. Press <span class="key">S</span> to start game, <span class="key">R</span> to restart game, <span class="key">E</span> to end game, <span class="key">P</span> to pause or unpause. 100 points per row. Wild mode has more strange pieces and colors.
-                        <br />
+                        <h-margin />
                         <br />
                     2. Use arrow keys and space as control (<span class="key">LEFT</span>, <span class="key">RIGHT</span> to move left and right, <span class="key">DOWN</span> to drop and <span class="key">SPACE</span> to rotate).
-                        <br />
+                        <h-margin />
                         <br />
                     3. Links to <a href="/playgrounds/tetris" target = "_blank">normal mode</a> and <a href="/playgrounds/tetris?wild=true" target = "_blank">wild mode</a>.
                 </div>`
@@ -954,14 +1007,16 @@ Vue.component('instructions', {
 Vue.component('game-board', {
     data: function() {
         return {
-            tetrisState: tetris.exportedState
+            tetrisState: tetris.exportedState,
+            rightPanelFontSize: RIGHT_PANEL_FONT_SIZE
         }
     },
+    
     template: `<div v-bind:style="{ 
                     display: 'flex', 
                     flexDirection: 'row', 
                     width: '400px',
-                    transform: 'translate(-150px, 0px)',
+                    transform: 'translate(-80px, 0px)',
                     marginLeft: 'auto',
                     marginRight: 'auto'
                 }">
@@ -978,14 +1033,14 @@ Vue.component('game-board', {
                     </div>
                     <div v-bind:style="{
                         marginLeft: '40px',
-                        fontSize: '20px',
+                        fontSize: rightPanelFontSize + 'px',
                         width: '350px'
                     }">
                         Score: {{tetrisState.gameScore}}
                             <br />
                             <br />
                         <div v-bind:style="{opacity: tetrisState.gameOver ? 1 : 0, color: 'red'}"> GAME OVER </div>
-                        <div v-bind:style="{opacity: tetrisState.gamePaused ? 1 : 0}"> PAUSED </div>
+                        <div class="flash" v-bind:style="{visibility: tetrisState.gamePaused ? 'visible' : 'hidden'}"> PAUSED </div>
                             <br />
                         Next Piece
                             <br />
