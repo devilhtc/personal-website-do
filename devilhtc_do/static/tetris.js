@@ -56,6 +56,124 @@ var rand1ToN = function(n) {
     return Math.floor((Math.random() * n) + 1)
 }
 
+// equivalent to python code: return arr[:-1] + arr2 + arr[-1:]
+var mergeArrays = function(arr1, arr2) {
+    return arr1.slice(0, -1).concat(arr2).concat(arr1.slice(-1))
+}
+
+// gather information on wild mode
+var wildMode = (getParameterByName('wild') === 'true')
+console.log('wild mode is ' + wildMode)
+
+var websiteTitleSpan = document.getElementById("gametitle")
+if (wildMode) {
+    websiteTitleSpan.innerHTML = `<span class="jane"> Wild </span> Tetris`
+} else {
+    websiteTitleSpan.innerHTML = `Tetris`
+}
+
+var wildColors = [
+    "#7899ff",
+    "#993325",
+    "#caca00",
+    "#cc20ca",
+    "#410140",
+    "#00ef94",
+    "#ffe3a9",
+    "#ee8855",
+    "#fafafa",
+    "#90ee73",
+    "#aa90ee",
+    "#ccdd90"
+]
+var wildShapes = [
+    "Lsmall",
+    "Llarge",
+    "Ismall",
+    ".",
+    "TL1",
+    "TL2",
+    "Ismaller",
+    "2balls",
+    "star",
+    "gary1",
+    "gary2",
+    "rocket"
+]
+var wildBoardPositions = [
+    [
+        [[0, 0], [0, -1], [1, -1]],
+        [[0, -1], [1, 0], [1, -1]],
+        [[0, 0], [1, 0], [1, -1]],
+        [[0, 0], [1, 0], [0, -1]]
+    ],
+    [
+        [[0, 0], [0, 1], [0, -1], [1, -1], [2, -1]],
+        [[0, -1], [1, -1], [2, -1], [2, 0], [2, 1]],
+        [[2, -1], [2, 0], [2, 1], [1, 1], [0, 1]],
+        [[0, 0], [0, -1], [0, 1], [1, 1], [2, 1]]
+    ],
+    [
+        [[0, 0], [0, -1], [0, 1]],
+        [[0, 0], [1, 0], [2, 0]],
+        [[0, 0], [0, -1], [0, 1]],
+        [[0, 0], [1, 0], [2, 0]]
+    ],
+    [
+        [[0, 0]], 
+        [[0, 0]], 
+        [[0, 0]], 
+        [[0, 0]]
+    ],
+    [
+        [[0, 0], [1, 0], [2, 0], [3, 0], [1, 1]],
+        [[0, 0], [1, -1], [1, 0], [1, 1], [1, 2]],
+        [[0, 1], [1, 1], [2, 1], [3, 1], [2, 0]],
+        [[0, -1], [0, 0], [0, 1], [0, 2], [1, 1]]
+    ],
+    [
+        [[0, 0], [1, 0], [2, 0], [3, 0], [1, -1]],
+        [[0, 0], [0, -2], [0, -1], [0, 1], [1, -1]],
+        [[0, -1], [1, -1], [2, -1], [3, -1], [2, 0]],
+        [[0, 0], [1, -2], [1, -1], [1, 0], [1, 1]]
+    ],
+    [
+        [[0, 0], [1, 0]],
+        [[0, 0], [0, 1]],
+        [[0, 0], [1, 0]],
+        [[0, 0], [0, 1]]
+    ],
+    [
+        [[0, 0], [1, 1]],
+        [[1, 0], [0, 1]],
+        [[0, 0], [1, 1]],
+        [[1, 0], [0, 1]]
+    ],
+    [
+        [[0, 0], [1, 0], [2, 0], [1, -1], [1, 1]],
+        [[0, 0], [1, 0], [2, 0], [1, -1], [1, 1]],
+        [[0, 0], [1, 0], [2, 0], [1, -1], [1, 1]],
+        [[0, 0], [1, 0], [2, 0], [1, -1], [1, 1]]
+    ],
+    [
+        [[0, 0], [1, 0], [2, 1]],
+        [[1, -1], [1, 0], [0, 1]],
+        [[0, 0], [1, 1], [2, 1]],
+        [[0, 0], [0, 1], [1, -1]]
+    ],
+    [
+        [[0, 1], [1, 1], [2, 0]],
+        [[0, 0], [0, -1], [1, 1]],
+        [[1, 0], [2, 0], [0, 1]],
+        [[0, -1], [1, 0], [1, 1]]
+    ],
+    [
+        [[0, 0], [0, -1], [0, 1], [1, 0], [2, 0]],
+        [[0, -1], [1, -1], [2, -1], [1, 0], [1, 1]],
+        [[0, 0], [1, 0], [2, 0], [2, -1], [2, 1]],
+        [[1, -1], [1, 0], [1, 1], [0, 1], [2, 1]]
+    ]
+]
 // setting up tests
 var allTests = []
 var conductTests = false
@@ -78,16 +196,9 @@ var pieceColors = [
     "#888888",
     "#123456" // border
 ]
-
-var numColors = pieceColors.length - 1
-
 var pieceShapes = [
      "L1", "L2", "Z1", "Z2", "T", "I", "O", "." // placeholder
 ]
-
-var numShapes = pieceShapes.length - 1
-var DEFAULT_SHAPE_OPTION = 1
-var DEFAULT_COLOR_OPTION = 4
 var pieceBoardPositions = [
     [
         [[0, 0], [0, -1], [1, -1], [2, -1]],
@@ -139,19 +250,32 @@ var pieceBoardPositions = [
     ],
 ]
 
+// check if is in wild mode, if yes, add wild things into it
+if (wildMode) {
+    pieceColors = mergeArrays(pieceColors, wildColors)
+    pieceShapes = mergeArrays(pieceShapes, wildShapes)
+    pieceBoardPositions = mergeArrays(pieceBoardPositions, wildBoardPositions)
+}
+
+var numColors = pieceColors.length - 1
+var numShapes = pieceShapes.length - 1
 var numOrientation = 4
+
+var DEFAULT_SHAPE_OPTION = 1
+var DEFAULT_COLOR_OPTION = 4
 
 var BOUDARY_VALUE = pieceColors.length
 var SCORE_PER_ROW = 100
-var BLOCK_SIZE = 30
+var BLOCK_SIZE = wildMode ? 25 : 31
 var TIME_INTERVAL = 1000
+var FASTER_INTERVAL = 50
 
-var INNER_BOARD_WIDTH = 10
-var INNER_BOARD_HEIGHT = 20
+var INNER_BOARD_WIDTH = wildMode ? 12 : 10 
+var INNER_BOARD_HEIGHT = wildMode ? 24 : 20
 var HIDDEN_BOARD_HEIGHT = 4
 var NEXT_PIECE_DISPLAY_SIZE = 4
 
-var MARGIN_SIZE = 4
+var MARGIN_SIZE = wildMode ? 3 : 4
 var M = MARGIN_SIZE // short-hand M for MARGIN_SIZE
 
 var BLOCK_SIZE_WITH_BOUNDARY = BLOCK_SIZE + 2 * 5
@@ -518,6 +642,9 @@ var TetrisGame = function() {
     this.gameOver = false
     this.gameInterval = null
     
+    this.dropping = false
+    this.droppingInterval = null
+    
     this.getAPiece = () => {
         var shapeOption, colorOption
         shapeOption = rand1ToN(numShapes)
@@ -559,6 +686,7 @@ var TetrisGame = function() {
         this.exportedState.nextPieceColor = (this.nextPiece === null? 1 : this.nextPiece.colorOption)
     }
     
+    
     this.declareGameOver = () => {
         clearInterval(this.gameInterval)
         this.gameStarted = false
@@ -566,8 +694,9 @@ var TetrisGame = function() {
     }
     
     this.gameProceed = () => { 
+        console.log('game proceeds')
         if ( this.curPiece.hitBottom(this.gameBoard) ) {
-            console.log('hit the bottom!')
+            console.log('hit the bottom or other blocks')
             var pieceBoard = this.curPiece.getPieceBoard()
             var combinedBoard = combineBoardAndPiece(this.gameBoard, pieceBoard)
             var outcomes = processMergedBoard( combinedBoard )
@@ -611,11 +740,27 @@ var TetrisGame = function() {
     }
     
     this.dropPiece = () => {
+        // new implementation - quicker drop
+        if (!this.dropping) {
+            this.gameProceed()
+            this.dropping = true
+            this.droppingInterval = setTimeout( () => {
+                this.gameProceed()
+                this.dropping = false
+            }, FASTER_INTERVAL)
+        }
+        // old implementation - just drop
+        /* 
         while (!this.curPiece.hitBottom(this.gameBoard)) {
             this.curPiece.moveDownOnBoard(this.gameBoard)
         }
         this.gameProceed()
         this.updateExportedState()
+        */
+    }
+    
+    this.pauseGame = () => {
+        
     }
 }
 
@@ -627,7 +772,6 @@ var testGame1 = function() {
 }
 // allTests.push(testGame1)
 // ta end
-
 
 var tetris = new TetrisGame()
 
@@ -657,11 +801,12 @@ window.addEventListener("keydown", function() {
             tetris.startGame()
         }
     }
-    handled = true
+    //handled = true
     if (handled) {
         event.preventDefault()
     }
 })
+
 
 Vue.component('todo-item', {
     template: `<li>This is a todo</li>`
@@ -715,8 +860,8 @@ Vue.component('tetris-row', {
 
 Vue.component('piece-display', {
     template:  `<div v-bind:style="{
-                    width: `+ NEXT_PIECE_DISPLAY_WIDTH +` + 'px',
-                    height: ` +NEXT_PIECE_DISPLAY_HEIGHT+` + 'px',
+                    width: `+ NEXT_PIECE_DISPLAY_WIDTH + `+ 'px',
+                    height: ` + NEXT_PIECE_DISPLAY_HEIGHT + ` + 'px',
                     border: '0px solid black',
                     display: 'flex',
                     flexDirection: 'column',
@@ -762,74 +907,79 @@ Vue.component('piece-display', {
 
 Vue.component('instructions', {
     template:   `<div> 
-                    <br />
+                        <br />
                     <span style= "font-size:30px;" >Instructions </span>
-                    <br />
-                    <br />
-                    1. Press S to start game, R to restart game
-                    <br />
-                    <br />
-                    2. Use arrow keys and space as control (LEFT, RIGHT to move left and right, DOWN to drop and SPACE to rotate)
-                    <br />
+                        <br />
+                        <br />
+                    1. Press S to start game, R to restart game, 100 points per row. Wild mode has more strange pieces and colors.
+                        <br />
+                        <br />
+                    2. Use arrow keys and space as control (LEFT, RIGHT to move left and right, DOWN to drop and SPACE to rotate).
+                        <br />
+                        <br />
+                    3. Links to <a href="/playgrounds/tetris" target = "_blank">normal mode</a> and <a href="/playgrounds/tetris?wild=true" target = "_blank">wild mode</a>.
                 </div>`
 })
 
 Vue.component('game-board', {
+    data: function() {
+        return {
+            tetrisState: tetris.exportedState
+        }
+    },
     template: `<div v-bind:style="{ 
                     display: 'flex', 
                     flexDirection: 'row', 
+                    width: '400px',
+                    transform: 'translate(-150px, 0px)',
                     marginLeft: 'auto',
                     marginRight: 'auto'
                 }">
                     <div v-bind:style="{
-                        width: `+ BOARD_DISPLAY_WIDTH +` + 'px',
-                        height: ` +BOARD_DISPLAY_HEIGHT+` + 'px',
-                        border: '1px solid black',
+                        width: ` + BOARD_DISPLAY_WIDTH + ` + 'px',
+                        height: ` + BOARD_DISPLAY_HEIGHT + ` + 'px',
+                        border: '1.5px solid black',
                         display: 'flex',
                         flexDirection: 'column',
                     }">
                         <div v-for="row in tetrisState.displayBoard">
                             <tetris-row v-bind:blockRow="row"/>
                         </div>
-                        
-                        <div v-bind:style="{opacity: tetrisState.gameOver ? 1:0}"> GAME OVER </div>
                     </div>
                     <div v-bind:style="{
-                        marginLeft: '30px',
-                        fontSize: '22px',
+                        marginLeft: '40px',
+                        fontSize: '21px',
                         width: '350px'
                     }">
-                        Score {{tetrisState.gameScore}}
-                        <br />
-                        <br />
-                        <div v-bind:style="{opacity: tetrisState.gameOver ? 1:0, color: 'red'}"> GAME OVER </div>
-                        <br />
+                        Score: {{tetrisState.gameScore}}
+                            <br />
+                            <br />
+                        <div v-bind:style="{opacity: tetrisState.gameOver ? 1 : 0, color: 'red'}"> GAME OVER </div>
+                            <br />
                         Next Piece
-                        
-                        <br />
-                        <piece-display v-bind:boardPositions="tetrisState.nextPieceShape" v-bind:pieceColorOption="tetrisState.nextPieceColor"
-                        />
-                        <br />
+                            <br />
+                        <div class="flash" v-bind:style="{visibility: tetrisState.gameStarted ? 'visible' : 'hidden'}">
+                            <piece-display 
+                                v-bind:boardPositions="tetrisState.nextPieceShape" 
+                                v-bind:pieceColorOption="tetrisState.nextPieceColor"
+                            />
+                        </div>
+                            <br />
                         <instructions />
                     </div>
                </div>`,
-    
-    data: function() {
-        return {
-            tetrisState: tetris.exportedState
-        }
-    },
     methods: {
 
     },
     created: function() {
+        
     },
 })
 
 var myApp = new Vue({
       template:`<div v-bind:style = "{
                     margin: 'auto',
-                    marginTop: '90px',
+                    marginTop: '70px',
                     marginLeft: '300px'
                 }"> 
                     <game-board />

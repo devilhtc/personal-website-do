@@ -12,7 +12,6 @@
 <style type="text/css">
     @import url('https://fonts.googleapis.com/css?family=Noto+Sans');
     
-    
     body {
         font-family: 'Noto Sans', sans-serif;
     }
@@ -29,6 +28,7 @@
     
     .jane {
         animation-name: love;
+        font-weight: 700;
         animation-duration: 200ms;
         animation-iteration-count: infinite;
         animation-direction: alternate;
@@ -38,10 +38,30 @@
         from {
             color: coral;
         }
+        
         to {
             color: red;
         }
     }
+    
+    .flash {
+        animation-name: flashing;
+        animation-duration: 700ms;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+    }
+    
+    @keyframes flashing {
+        from {
+            opacity: 0.3;
+        }
+        
+        to {
+            opacity: 0.7;
+        }
+    }
+    
+    
 </style>
 
 </head>
@@ -50,8 +70,8 @@
 <!-- body here -->
 	<div class="wrapper"> 
 		<div class="header"> 
-            <span id="game-title">
-                Tetris game
+            <span id="gametitle">
+                
             </span>
             <br />
             <span class="author">
