@@ -641,7 +641,7 @@ var TetrisGame = function() {
     this.gameStarted = false
     this.gameOver = false
     this.gameInterval = null
-    
+    this.gamePaused = false
     this.dropping = false
     this.droppingInterval = null
     
@@ -670,6 +670,7 @@ var TetrisGame = function() {
         gameScore: this.gameScore,
         gameStarted: this.gameStarted,
         gameOver: this.gameOver,
+        gamePaused: this.gamePaused,
         nextPieceShape: (this.nextPiece === null? [] : this.nextPiece.boardPositions[0]),
         nextPieceColor: (this.nextPiece === null? 1 : this.nextPiece.colorOption)
     }
@@ -681,6 +682,7 @@ var TetrisGame = function() {
         this.exportedState.gameScore = this.gameScore
         this.exportedState.gameStarted = this.gameStarted
         this.exportedState.gameOver = this.gameOver
+        this.exportedState.gamePaused = this.gamePaused
         this.exportedState.displayBoard = getBoardForDisplay(this.gameBoard, this.pieceBoard)
         this.exportedState.nextPieceShape = (this.nextPiece === null? [] : this.nextPiece.boardPositions[0])
         this.exportedState.nextPieceColor = (this.nextPiece === null? 1 : this.nextPiece.colorOption)
@@ -725,22 +727,26 @@ var TetrisGame = function() {
     }
     
     this.movePieceLeft = () => {
+        if (this.gamePaused || !this.gameStarted) { return }
         this.curPiece.moveLeftOnBoard(this.gameBoard)
         this.updateExportedState()
     }
     
     this.movePieceRight = () => {
+        if (this.gamePaused || !this.gameStarted) { return }
         this.curPiece.moveRightOnBoard(this.gameBoard)
         this.updateExportedState()
     }
     
     this.rotatePiece = () => {
+        if (this.gamePaused || !this.gameStarted) { return }
         this.curPiece.rotateOnBoard(this.gameBoard)
         this.updateExportedState()
     }
     
     this.dropPiece = () => {
-        // new implementation - quicker drop
+        // new implementation - move down quicker 
+        if (this.gamePaused || !this.gameStarted) { return }
         if (!this.dropping) {
             this.gameProceed()
             this.dropping = true
@@ -759,8 +765,27 @@ var TetrisGame = function() {
         */
     }
     
-    this.pauseGame = () => {
-        
+    this.pauseContinueGame = () => {
+        if (!this.gamePaused) {
+            clearInterval(this.gameInterval)
+            this.gamePaused = true
+        } else {
+            this.gameInterval = setInterval(this.gameProceed, TIME_INTERVAL)
+            this.gamePaused = false
+        }
+        this.updateExportedState()
+    }
+    
+    this.endGame = () => {
+        if (this.gameStarted) {
+            this.gameBoard = createEmptyBoard()
+            this.gameStarted = false
+            this.gameOver = false
+            clearInterval(this.gameInterval)
+            this.getNewPiece()
+            this.pieceBoard = createEmptyPieceBoard()
+            this.updateExportedState()
+        }
     }
 }
 
@@ -780,6 +805,7 @@ window.addEventListener("keydown", function() {
     if (event.defaultPrevented) {
         return // Should do nothing if the default action has been cancelled
     }
+    
     var handled = false
     console.log('key pressed is "' + event.key + '"')
     if (tetris.gameStarted) {
@@ -794,6 +820,10 @@ window.addEventListener("keydown", function() {
                 tetris.rotatePiece()
             } else if (event.key === 'r') {
                 tetris.startGame()
+            } else if (event.key === 'e') {
+                tetris.endGame()
+            } else if (event.key === 'p') {
+                tetris.pauseContinueGame()
             }
         } 
     } else {
@@ -911,10 +941,10 @@ Vue.component('instructions', {
                     <span style= "font-size:30px;" >Instructions </span>
                         <br />
                         <br />
-                    1. Press S to start game, R to restart game, 100 points per row. Wild mode has more strange pieces and colors.
+                    1. Press <span class="key">S</span> to start game, <span class="key">R</span> to restart game, <span class="key">E</span> to end game, <span class="key">P</span> to pause or unpause. 100 points per row. Wild mode has more strange pieces and colors.
                         <br />
                         <br />
-                    2. Use arrow keys and space as control (LEFT, RIGHT to move left and right, DOWN to drop and SPACE to rotate).
+                    2. Use arrow keys and space as control (<span class="key">LEFT</span>, <span class="key">RIGHT</span> to move left and right, <span class="key">DOWN</span> to drop and <span class="key">SPACE</span> to rotate).
                         <br />
                         <br />
                     3. Links to <a href="/playgrounds/tetris" target = "_blank">normal mode</a> and <a href="/playgrounds/tetris?wild=true" target = "_blank">wild mode</a>.
@@ -948,13 +978,14 @@ Vue.component('game-board', {
                     </div>
                     <div v-bind:style="{
                         marginLeft: '40px',
-                        fontSize: '21px',
+                        fontSize: '20px',
                         width: '350px'
                     }">
                         Score: {{tetrisState.gameScore}}
                             <br />
                             <br />
                         <div v-bind:style="{opacity: tetrisState.gameOver ? 1 : 0, color: 'red'}"> GAME OVER </div>
+                        <div v-bind:style="{opacity: tetrisState.gamePaused ? 1 : 0}"> PAUSED </div>
                             <br />
                         Next Piece
                             <br />
