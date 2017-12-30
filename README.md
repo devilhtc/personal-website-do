@@ -4,7 +4,7 @@
 
 Personal Website built with 
 
-Front-end: ReactJS, Redux, node.js and Webpack. 
+Front-end: ReactJS, Redux, node.js, Webpack and Vue.js (in ```/playgrounds```)
 
 Back-end: Django, SQLite and GUnicorn (wsgi server), WhiteNoise (for serving static files)
 
