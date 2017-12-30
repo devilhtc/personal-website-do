@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 # Create your models here.
 
@@ -31,6 +32,6 @@ class Project(models.Model):
 	description = models.CharField(max_length = JSON_ML)
 	keywords = models.CharField(max_length = JSON_ML)
 	links = models.CharField(max_length = JSON_ML)
-	
+	startDate = models.DateField(default=datetime.date.today)
 	def __str__(self):
 		return self.title

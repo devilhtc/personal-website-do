@@ -31,7 +31,7 @@ class ProjectsSection extends React.Component {
 		const widthProportion = this.props.widthProportion
 		const sectionWidth = widthProportion * totalWidth
 
-		const projectsNumCols = totalWidth<1400 ? 2 : (totalWidth>1650 ? 4 : 3)
+		const projectsNumCols = totalWidth < 1400 ? 2 : (totalWidth>1650 ? 4 : 3)
 
 		const item2Tile = (item, index) => {
 			return (
@@ -102,7 +102,8 @@ class ProjectsSection extends React.Component {
 				.then( (response) => {
 					console.log('received data from '+ dataUrl)
 					console.log(response.data)
-					self.props.updateProjectList(response.data)
+					var projectsSortedByStartDate = response.data.sort((a, b) => -1*a.startDate.localeCompare(b.startDate))
+					self.props.updateProjectList(projectsSortedByStartDate)
 					this.setState({
 						projectsList: this.props.projects
 					})

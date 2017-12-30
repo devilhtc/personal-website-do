@@ -37,6 +37,7 @@ def parseProject(p):
 	p2['description'] = json.loads(p.description)
 	p2['keywords'] = json.loads(p.keywords)
 	p2['links'] = json.loads(p.links)
+	p2['startDate'] = p.startDate.isoformat()
 	return p2
 
 def parseSocialLink(s):
